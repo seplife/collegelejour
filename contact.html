@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Collège le Jour de Divo</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-gray-700 hover:text-blue-600 transition-colors">À propos</a>
+                    <a href="admissions.html" class="text-gray-700 hover:text-blue-600 transition-colors">Admissions</a>
+                    <a href="vie-scolaire.html" class="text-gray-700 hover:text-blue-600 transition-colors">Vie scolaire</a>
+                    <a href="albums.html" class="text-gray-700 hover:text-blue-600 transition-colors">Albums</a>
+                    <a href="contact.html" class="text-blue-600 font-semibold">Contact</a>
+                    <button onclick="handleAuth('login')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">Contactez-nous</h1>
+            <p class="text-xl opacity-90">Nous sommes là pour répondre à toutes vos questions</p>
+        </div>
+    </section>
+
+    <!-- Informations de contact -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="text-center p-6 bg-blue-50 rounded-xl card-hover">
+                    <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Adresse</h3>
+                    <p class="text-gray-600">Quartier Résidentiel<br>BP 1234 Divo<br>Côte d'Ivoire</p>
+                </div>
+                
+                <div class="text-center p-6 bg-green-50 rounded-xl card-hover">
+                    <div class="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Téléphone</h3>
+                    <p class="text-gray-600">+225 XX XX XX XX<br>+225 YY YY YY YY<br>(Lun-Ven 7h-18h)</p>
+                </div>
+                
+                <div class="text-center p-6 bg-purple-50 rounded-xl card-hover">
+                    <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Email</h3>
+                    <p class="text-gray-600">contact@collegejourddivo.ci<br>secretariat@collegejourddivo.ci<br>direction@collegejourddivo.ci</p>
+                </div>
+                
+                <div class="text-center p-6 bg-yellow-50 rounded-xl card-hover">
+                    <div class="bg-yellow-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Horaires</h3>
+                    <p class="text-gray-600">Lun-Ven: 7h30-17h30<br>Samedi: 8h-12h<br>Dimanche: Fermé</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulaire de contact et carte -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Formulaire de contact -->
+                <div class="bg-white rounded-xl shadow-lg p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Envoyez-nous un message</h2>
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom *</label>
+                                <input type="text" name="nom" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Prénom *</label>
+                                <input type="text" name="prenom" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                                <input type="email" name="email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                                <input type="tel" name="telephone" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Qualité *</label>
+                            <select name="qualite" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Sélectionnez votre qualité</option>
+                                <option value="parent">Parent d'élève</option>
+                                <option value="futur_parent">Futur parent d'élève</option>
+                                <option value="eleve">Élève</option>
+                                <option value="ancien_eleve">Ancien élève</option>
+                                <option value="enseignant">Enseignant</option>
+                                <option value="partenaire">Partenaire</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Sujet *</label>
+                            <select name="sujet" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Choisissez un sujet</option>
+                                <option value="admission">Demande d'admission</option>
+                                <option value="information">Demande d'information</option>
+                                <option value="rendez_vous">Prise de rendez-vous</option>
+                                <option value="scolarite">Questions scolarité</option>
+                                <option value="transport">Transport scolaire</option>
+                                <option value="restauration">Restauration</option>
+                                <option value="activites">Activités extra-scolaires</option>
+                                <option value="reclamation">Réclamation</option>
+                                <option value="partenariat">Proposition de partenariat</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+                            <textarea name="message" required rows="6" placeholder="Décrivez votre demande en détail..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <input type="checkbox" name="newsletter" class="mr-3 mt-1 text-blue-600">
+                            <label class="text-sm text-gray-700">Je souhaite recevoir la newsletter du collège</label>
+                        </div>
+                        
+                        <div class="text-center pt-6">
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors btn-primary">
+                                <i class="fas fa-paper-plane mr-2"></i>Envoyer le message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Carte et informations supplémentaires -->
+                <div>
+                    <!-- Carte interactive (simulation) -->
+                    <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                        <h3 class="text-xl font-bold mb-4">Nous localiser</h3>
+                        <div id="map" class="w-full h-64 bg-gray-200 rounded-lg flex items-center justify-center">
+                            <div class="text-center text-gray-500">
+                                <i class="fas fa-map-marked-alt text-4xl mb-2"></i>
+                                <p>Carte interactive</p>
+                                <p class="text-sm">(Cliquez pour voir sur Google Maps)</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <button onclick="openGoogleMaps()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                                <i class="fas fa-external-link-alt mr-2"></i>Voir sur Google Maps
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Services administratifs -->
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h3 class="text-xl font-bold mb-6">Services Administratifs</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-3 bg-blue-50 rounded-lg">
+                                <i class="fas fa-user-tie text-blue-600 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">Direction</h4>
+                                    <p class="text-sm text-gray-600">Rendez-vous sur demande</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-green-50 rounded-lg">
+                                <i class="fas fa-clipboard-list text-green-600 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">Secrétariat</h4>
+                                    <p class="text-sm text-gray-600">7h30-12h / 14h-17h</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-purple-50 rounded-lg">
+                                <i class="fas fa-calculator text-purple-600 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">Comptabilité</h4>
+                                    <p class="text-sm text-gray-600">8h-12h / 14h-16h</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-yellow-50 rounded-lg">
+                                <i class="fas fa-user-graduate text-yellow-600 mr-3"></i>
+                                <div>
+                                    <h4 class="font-semibold">Vie Scolaire</h4>
+                                    <p class="text-sm text-gray-600">7h30-17h30</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Contact -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Questions Fréquentes</h2>
+                <p class="text-gray-600">Trouvez rapidement des réponses à vos questions</p>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq1">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Comment prendre rendez-vous avec la direction ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq1" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Vous pouvez prendre rendez-vous en appelant le secrétariat au +225 XX XX XX XX ou en utilisant notre formulaire de contact en précisant "Prise de rendez-vous" dans le sujet.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq2">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Quels documents fournir pour une demande d'information ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq2" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Pour une simple demande d'information, aucun document n'est nécessaire. Cependant, pour une demande d'admission, nous aurons besoin des bulletins scolaires récents.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Sous quel délai recevrai-je une réponse ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq3" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Nous nous engageons à répondre à tous les messages dans un délai de 48 heures ouvrées. Pour les demandes urgentes, n'hésitez pas à nous appeler directement.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Comment se rendre au collège en transport en commun ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq4" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Le collège est accessible par les lignes de bus urbain n°3 et n°7. Arrêt "Quartier Résidentiel". Vous pouvez également prendre un taxi ou venir avec notre service de transport scolaire.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq5">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Peut-on visiter l'établissement ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq5" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Bien sûr ! Nous organisons des visites guidées tous les samedis à 10h. Vous pouvez également prendre rendez-vous pour une visite personnalisée en semaine.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Réseaux sociaux -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Suivez-nous</h2>
+            <p class="text-gray-600 mb-8">Restez connectés avec notre communauté</p>
+            
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors card-hover">
+                    <i class="fab fa-facebook text-2xl"></i>
+                </a>
+                <a href="#" class="bg-blue-400 text-white w-16 h-16 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors card-hover">
+                    <i class="fab fa-twitter text-2xl"></i>
+                </a>
+                <a href="#" class="bg-pink-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:bg-pink-700 transition-colors card-hover">
+                    <i class="fab fa-instagram text-2xl"></i>
+                </a>
+                <a href="#" class="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors card-hover">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                </a>
+                <a href="#" class="bg-red-600 text-white w-16 h-16 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors card-hover">
+                    <i class="fab fa-youtube text-2xl"></i>
+                </a>
+            </div>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <i class="fas fa-newspaper text-blue-600 text-3xl mb-3"></i>
+                    <h3 class="font-bold mb-2">Newsletter</h3>
+                    <p class="text-sm text-gray-600 mb-4">Recevez nos actualités chaque mois</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Votre email" class="flex-1 border border-gray-300 rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <i class="fas fa-bell text-green-600 text-3xl mb-3"></i>
+                    <h3 class="font-bold mb-2">Alertes SMS</h3>
+                    <p class="text-sm text-gray-600 mb-4">Notifications importantes par SMS</p>
+                    <div class="flex">
+                        <input type="tel" placeholder="Votre numéro" class="flex-1 border border-gray-300 rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <button class="bg-green-600 text-white px-4 py-2 rounded-r-lg hover:bg-green-700">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <div id="chatbot-widget" class="bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition-colors">
+            <i class="fas fa-comments text-xl"></i>
+        </div>
+        <div id="chatbot-window" class="hidden absolute bottom-16 right-0 w-80 h-96 bg-white rounded-lg shadow-2xl border">
+            <div class="bg-blue-600 text-white p-4 rounded-t-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-semibold">Assistant virtuel</h3>
+                    <button id="close-chatbot" class="text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="chat-messages" class="h-64 overflow-y-auto p-4 bg-gray-50">
+                <div class="bg-blue-100 p-3 rounded-lg mb-3">
+                    <p class="text-sm">Bonjour ! Je peux vous aider à nous contacter ou répondre à vos questions. Comment puis-je vous assister ?</p>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex">
+                    <input type="text" id="chat-input" placeholder="Tapez votre message..." class="flex-1 border rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="send-message" class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="assets/images/logo.png" alt="Logo" class="h-12 w-auto mb-4">
+                    <h3 class="text-xl font-bold mb-4">Collège le Jour de Divo</h3>
+                    <p class="text-gray-400">Excellence académique et épanouissement personnel pour tous nos élèves.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Accueil</a></li>
+                        <li><a href="apropos.html" class="text-gray-400 hover:text-white">À propos</a></li>
+                        <li><a href="admissions.html" class="text-gray-400 hover:text-white">Admissions</a></li>
+                        <li><a href="vie-scolaire.html" class="text-gray-400 hover:text-white">Vie scolaire</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="espace-eleves.html" class="text-gray-400 hover:text-white">Espace élèves</a></li>
+                        <li><a href="espace-parents.html" class="text-gray-400 hover:text-white">Espace parents</a></li>
+                        <li><a href="espace-enseignants.html" class="text-gray-400 hover:text-white">Espace enseignants</a></li>
+                        <li><a href="paiements.html" class="text-gray-400 hover:text-white">Paiements en ligne</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Divo, Côte d'Ivoire</p>
+                        <p><i class="fas fa-phone mr-2"></i>+225 XX XX XX XX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>contact@collegejourddivo.ci</p>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Collège le Jour de Divo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/contact.js"></script>
+</body>
+</html>

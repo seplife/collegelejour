@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Collège le Jour de Divo</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-blue-600 font-semibold">À propos</a>
+                    <a href="admissions.html" class="text-gray-700 hover:text-blue-600 transition-colors">Admissions</a>
+                    <a href="vie-scolaire.html" class="text-gray-700 hover:text-blue-600 transition-colors">Vie scolaire</a>
+                    <a href="albums.html" class="text-gray-700 hover:text-blue-600 transition-colors">Albums</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                    <button onclick="handleAuth('login')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-500 hover:text-gray-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">À propos de notre collège</h1>
+            <p class="text-xl opacity-90">Découvrez notre histoire, nos valeurs et notre vision</p>
+        </div>
+    </section>
+
+    <!-- Notre Histoire -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Notre Histoire</h2>
+                    <p class="text-gray-600 mb-4">
+                        Fondé en 1985, le Collège le Jour de Divo est né de la vision d'offrir une éducation de qualité aux jeunes de la région de Divo. Depuis près de quatre décennies, nous nous sommes imposés comme une référence en matière d'excellence académique.
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        Notre établissement a formé des milliers d'élèves qui occupent aujourd'hui des postes de responsabilité dans divers secteurs d'activité, contribuant ainsi au développement de la Côte d'Ivoire.
+                    </p>
+                    <div class="flex items-center space-x-4 text-blue-600">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold">40</div>
+                            <div class="text-sm">Années d'expérience</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold">5000+</div>
+                            <div class="text-sm">Diplômés</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold">95%</div>
+                            <div class="text-sm">Taux de réussite</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative">
+                    <img src="assets/images/history.jpg" alt="Histoire du collège" class="rounded-lg shadow-lg">
+                    <div class="absolute inset-0 bg-blue-900 opacity-20 rounded-lg"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nos Valeurs -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Nos Valeurs</h2>
+                <p class="text-gray-600">Les principes qui guident notre action éducative</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6 bg-white rounded-xl shadow-md card-hover">
+                    <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-star text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Excellence</h3>
+                    <p class="text-gray-600">Nous visons l'excellence dans tous les aspects de l'éducation, encourageant chaque élève à donner le meilleur de lui-même.</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-md card-hover">
+                    <div class="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-heart text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Respect</h3>
+                    <p class="text-gray-600">Le respect mutuel entre tous les membres de la communauté scolaire est au cœur de notre philosophie éducative.</p>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl shadow-md card-hover">
+                    <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-lightbulb text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Innovation</h3>
+                    <p class="text-gray-600">Nous adoptons les meilleures pratiques pédagogiques et intégrons les nouvelles technologies dans l'enseignement.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notre Équipe -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Notre Équipe Dirigeante</h2>
+                <p class="text-gray-600">Des professionnels dévoués à la réussite de nos élèves</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <img src="assets/images/directeur.jpg" alt="Directeur" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">M. Jean KOUASSI</h3>
+                    <p class="text-blue-600 font-semibold mb-2">Directeur Général</p>
+                    <p class="text-gray-600 text-sm">25 ans d'expérience dans l'éducation. Passionné par l'excellence pédagogique.</p>
+                </div>
+                <div class="text-center">
+                    <img src="assets/images/directrice-etudes.jpg" alt="Directrice des études" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">Mme Marie YAO</h3>
+                    <p class="text-blue-600 font-semibold mb-2">Directrice des Études</p>
+                    <p class="text-gray-600 text-sm">Experte en pédagogie moderne, elle coordonne les programmes d'enseignement.</p>
+                </div>
+                <div class="text-center">
+                    <img src="assets/images/conseiller.jpg" alt="Conseiller d'orientation" class="w-40 h-40 rounded-full mx-auto mb-4 object-cover shadow-lg">
+                    <h3 class="text-xl font-bold mb-2">M. Paul DIABATE</h3>
+                    <p class="text-blue-600 font-semibold mb-2">Conseiller d'Orientation</p>
+                    <p class="text-gray-600 text-sm">Accompagne les élèves dans leurs choix d'orientation et leur développement personnel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nos Installations -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Nos Installations</h2>
+                <p class="text-gray-600">Des infrastructures modernes pour un apprentissage optimal</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover">
+                    <i class="fas fa-chalkboard-teacher text-3xl text-blue-600 mb-3"></i>
+                    <h3 class="font-semibold mb-2">24 Salles de classe</h3>
+                    <p class="text-gray-600 text-sm">Équipées de tableaux interactifs</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover">
+                    <i class="fas fa-flask text-3xl text-green-600 mb-3"></i>
+                    <h3 class="font-semibold mb-2">Laboratoires</h3>
+                    <p class="text-gray-600 text-sm">Sciences physiques et SVT</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover">
+                    <i class="fas fa-desktop text-3xl text-purple-600 mb-3"></i>
+                    <h3 class="font-semibold mb-2">Salle informatique</h3>
+                    <p class="text-gray-600 text-sm">30 postes avec Internet</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center card-hover">
+                    <i class="fas fa-book text-3xl text-red-600 mb-3"></i>
+                    <h3 class="font-semibold mb-2">Bibliothèque</h3>
+                    <p class="text-gray-600 text-sm">Plus de 5000 ouvrages</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <div id="chatbot-widget" class="bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition-colors">
+            <i class="fas fa-comments text-xl"></i>
+        </div>
+        <div id="chatbot-window" class="hidden absolute bottom-16 right-0 w-80 h-96 bg-white rounded-lg shadow-2xl border">
+            <div class="bg-blue-600 text-white p-4 rounded-t-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-semibold">Assistant virtuel</h3>
+                    <button id="close-chatbot" class="text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="chat-messages" class="h-64 overflow-y-auto p-4 bg-gray-50">
+                <div class="bg-blue-100 p-3 rounded-lg mb-3">
+                    <p class="text-sm">Bonjour ! Je suis votre assistant virtuel. Comment puis-je vous aider ?</p>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex">
+                    <input type="text" id="chat-input" placeholder="Tapez votre message..." class="flex-1 border rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="send-message" class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="assets/images/logo.png" alt="Logo" class="h-12 w-auto mb-4">
+                    <h3 class="text-xl font-bold mb-4">Collège le Jour de Divo</h3>
+                    <p class="text-gray-400">Excellence académique et épanouissement personnel pour tous nos élèves.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Accueil</a></li>
+                        <li><a href="apropos.html" class="text-gray-400 hover:text-white">À propos</a></li>
+                        <li><a href="admissions.html" class="text-gray-400 hover:text-white">Admissions</a></li>
+                        <li><a href="vie-scolaire.html" class="text-gray-400 hover:text-white">Vie scolaire</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="espace-eleves.html" class="text-gray-400 hover:text-white">Espace élèves</a></li>
+                        <li><a href="espace-parents.html" class="text-gray-400 hover:text-white">Espace parents</a></li>
+                        <li><a href="espace-enseignants.html" class="text-gray-400 hover:text-white">Espace enseignants</a></li>
+                        <li><a href="paiements.html" class="text-gray-400 hover:text-white">Paiements en ligne</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Divo, Côte d'Ivoire</p>
+                        <p><i class="fas fa-phone mr-2"></i>+225 XX XX XX XX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>contact@collegejourddivo.ci</p>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Collège le Jour de Divo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

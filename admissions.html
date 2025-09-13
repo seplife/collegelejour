@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admissions - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Collège le Jour de Divo</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-gray-700 hover:text-blue-600 transition-colors">À propos</a>
+                    <a href="admissions.html" class="text-blue-600 font-semibold">Admissions</a>
+                    <a href="vie-scolaire.html" class="text-gray-700 hover:text-blue-600 transition-colors">Vie scolaire</a>
+                    <a href="albums.html" class="text-gray-700 hover:text-blue-600 transition-colors">Albums</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                    <button onclick="handleAuth('login')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">Admissions</h1>
+            <p class="text-xl opacity-90">Rejoignez notre communauté éducative d'excellence</p>
+        </div>
+    </section>
+
+    <!-- Processus d'admission -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Processus d'admission</h2>
+                <p class="text-gray-600">Suivez ces étapes simples pour inscrire votre enfant</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-blue-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">1</div>
+                    <h3 class="text-lg font-semibold mb-2">Pré-inscription</h3>
+                    <p class="text-gray-600 text-sm">Remplissez le formulaire en ligne ou venez au secrétariat</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-green-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">2</div>
+                    <h3 class="text-lg font-semibold mb-2">Dossier</h3>
+                    <p class="text-gray-600 text-sm">Constituez votre dossier avec les pièces requises</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-purple-600 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">3</div>
+                    <h3 class="text-lg font-semibold mb-2">Entretien</h3>
+                    <p class="text-gray-600 text-sm">Entretien avec l'équipe pédagogique</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-yellow-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">4</div>
+                    <h3 class="text-lg font-semibold mb-2">Confirmation</h3>
+                    <p class="text-gray-600 text-sm">Confirmation de l'inscription et paiement</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulaire d'inscription -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Formulaire de pré-inscription</h2>
+                <form id="admission-form" class="space-y-6">
+                    <!-- Informations de l'élève -->
+                    <div class="bg-blue-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-blue-800">Informations de l'élève</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom de famille *</label>
+                                <input type="text" name="nom" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Prénoms *</label>
+                                <input type="text" name="prenoms" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Date de naissance *</label>
+                                <input type="date" name="date_naissance" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sexe *</label>
+                                <select name="sexe" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Sélectionner</option>
+                                    <option value="M">Masculin</option>
+                                    <option value="F">Féminin</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Classe demandée *</label>
+                                <select name="classe" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Sélectionner une classe</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Établissement précédent</label>
+                                <input type="text" name="etablissement_precedent" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Informations des parents -->
+                    <div class="bg-green-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-green-800">Informations des parents/tuteur</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom du père</label>
+                                <input type="text" name="nom_pere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Profession du père</label>
+                                <input type="text" name="profession_pere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom de la mère</label>
+                                <input type="text" name="nom_mere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Profession de la mère</label>
+                                <input type="text" name="profession_mere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone principal *</label>
+                                <input type="tel" name="telephone" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <input type="email" name="email" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Adresse complète *</label>
+                            <textarea name="adresse" required rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Documents requis -->
+                    <div class="bg-yellow-50 p-6 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-4 text-yellow-800">Documents à fournir</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="documents[]" value="acte_naissance" class="mr-3 text-blue-600">
+                                <span class="text-sm">Extrait d'acte de naissance</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="documents[]" value="bulletin" class="mr-3 text-blue-600">
+                                <span class="text-sm">Bulletins des 2 dernières années</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="documents[]" value="photos" class="mr-3 text-blue-600">
+                                <span class="text-sm">4 photos d'identité</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="documents[]" value="certificat_medical" class="mr-3 text-blue-600">
+                                <span class="text-sm">Certificat médical</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="documents[]" value="certificat_scolarite" class="mr-3 text-blue-600">
+                                <span class="text-sm">Certificat de scolarité</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Commentaires -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Commentaires ou demandes particulières</label>
+                        <textarea name="commentaires" rows="4" placeholder="Allergies, besoins spéciaux, transport scolaire..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                    </div>
+
+                    <!-- Acceptation des conditions -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <label class="flex items-start">
+                            <input type="checkbox" name="conditions" required class="mr-3 mt-1 text-blue-600">
+                            <span class="text-sm text-gray-700">J'accepte les <a href="#" class="text-blue-600 underline">conditions générales</a> et le <a href="#" class="text-blue-600 underline">règlement intérieur</a> de l'établissement. *</span>
+                        </label>
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    <div class="text-center pt-6">
+                        <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors btn-primary">
+                            <i class="fas fa-paper-plane mr-2"></i>Soumettre la demande
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Frais de scolarité -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Frais de scolarité 2024-2025</h2>
+                <p class="text-gray-600">Tarifs transparents et modalités de paiement flexibles</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6 rounded-xl text-center">
+                    <h3 class="text-2xl font-bold mb-2">6ème</h3>
+                    <div class="text-3xl font-bold mb-4">850,000</div>
+                    <p class="text-blue-200 text-sm">FCFA par an</p>
+                </div>
+                <div class="bg-gradient-to-br from-green-600 to-green-700 text-white p-6 rounded-xl text-center">
+                    <h3 class="text-2xl font-bold mb-2">5ème</h3>
+                    <div class="text-3xl font-bold mb-4">900,000</div>
+                    <p class="text-green-200 text-sm">FCFA par an</p>
+                </div>
+                <div class="bg-gradient-to-br from-purple-600 to-purple-700 text-white p-6 rounded-xl text-center">
+                    <h3 class="text-2xl font-bold mb-2">4ème</h3>
+                    <div class="text-3xl font-bold mb-4">950,000</div>
+                    <p class="text-purple-200 text-sm">FCFA par an</p>
+                </div>
+                <div class="bg-gradient-to-br from-red-600 to-red-700 text-white p-6 rounded-xl text-center">
+                    <h3 class="text-2xl font-bold mb-2">3ème</h3>
+                    <div class="text-3xl font-bold mb-4">1,000,000</div>
+                    <p class="text-red-200 text-sm">FCFA par an</p>
+                </div>
+            </div>
+            <div class="mt-8 bg-blue-50 p-6 rounded-lg">
+                <h4 class="font-semibold mb-3">Les frais incluent :</h4>
+                <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-700">
+                    <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i>Frais d'inscription</li>
+                    <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i>Manuels scolaires</li>
+                    <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i>Activités pédagogiques</li>
+                    <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i>Assurance scolaire</li>
+                    <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i>Accès à la bibliothèque</li>
+                    <li class="flex items-center"><i class="fas fa-check text-green-600 mr-2"></i>Plateforme numérique</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dates importantes -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Calendrier des admissions</h2>
+                <p class="text-gray-600">Dates importantes à retenir</p>
+            </div>
+            <div class="space-y-6">
+                <div class="flex items-center bg-white p-6 rounded-lg shadow-md">
+                    <div class="bg-blue-600 text-white w-16 h-16 rounded-lg flex flex-col items-center justify-center mr-6">
+                        <div class="text-lg font-bold">15</div>
+                        <div class="text-xs">DÉC</div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Ouverture des inscriptions</h3>
+                        <p class="text-gray-600">Début de la campagne d'inscription pour 2025-2026</p>
+                    </div>
+                </div>
+                <div class="flex items-center bg-white p-6 rounded-lg shadow-md">
+                    <div class="bg-green-600 text-white w-16 h-16 rounded-lg flex flex-col items-center justify-center mr-6">
+                        <div class="text-lg font-bold">28</div>
+                        <div class="text-xs">FÉV</div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Date limite première session</h3>
+                        <p class="text-gray-600">Fin de la première phase d'inscription</p>
+                    </div>
+                </div>
+                <div class="flex items-center bg-white p-6 rounded-lg shadow-md">
+                    <div class="bg-purple-600 text-white w-16 h-16 rounded-lg flex flex-col items-center justify-center mr-6">
+                        <div class="text-lg font-bold">30</div>
+                        <div class="text-xs">JUIN</div>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold">Clôture définitive</h3>
+                        <p class="text-gray-600">Fin de la campagne d'inscription (places limitées)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Questions fréquentes</h2>
+                <p class="text-gray-600">Trouvez les réponses aux questions les plus posées</p>
+            </div>
+            <div class="space-y-4">
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq1">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Quelles sont les conditions d'admission ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq1" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Les conditions d'admission incluent un dossier complet, un entretien avec l'équipe pédagogique, et selon le niveau, des tests d'évaluation. L'âge légal pour chaque classe doit être respecté.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq2">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Peut-on payer les frais en plusieurs fois ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq2" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Oui, nous proposons un paiement en 3 tranches : à l'inscription, en janvier et en avril. Des facilités de paiement peuvent être accordées sur demande motivée.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq3">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Y a-t-il un transport scolaire ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq3" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Oui, nous proposons un service de transport scolaire avec plusieurs circuits couvrant Divo et les environs. Le tarif est de 150,000 FCFA par an.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-lg">
+                    <button class="faq-question w-full text-left p-6 focus:outline-none" data-target="faq4">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-semibold">Le collège propose-t-il un internat ?</h3>
+                            <i class="fas fa-chevron-down transition-transform"></i>
+                        </div>
+                    </button>
+                    <div id="faq4" class="faq-answer hidden px-6 pb-6">
+                        <p class="text-gray-600">Actuellement, nous ne proposons pas d'internat. Tous nos élèves sont externes ou demi-pensionnaires. Un projet d'internat est à l'étude pour les prochaines années.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chatbot -->
+    <div id="chatbot-container" class="fixed bottom-6 right-6 z-50">
+        <div id="chatbot-widget" class="bg-blue-600 text-white w-14 h-14 rounded-full flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition-colors">
+            <i class="fas fa-comments text-xl"></i>
+        </div>
+        <div id="chatbot-window" class="hidden absolute bottom-16 right-0 w-80 h-96 bg-white rounded-lg shadow-2xl border">
+            <div class="bg-blue-600 text-white p-4 rounded-t-lg">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-semibold">Assistant virtuel</h3>
+                    <button id="close-chatbot" class="text-white hover:text-gray-200">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="chat-messages" class="h-64 overflow-y-auto p-4 bg-gray-50">
+                <div class="bg-blue-100 p-3 rounded-lg mb-3">
+                    <p class="text-sm">Bonjour ! Je peux vous aider avec les inscriptions. Que souhaitez-vous savoir ?</p>
+                </div>
+            </div>
+            <div class="p-4 border-t">
+                <div class="flex">
+                    <input type="text" id="chat-input" placeholder="Tapez votre message..." class="flex-1 border rounded-l-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button id="send-message" class="bg-blue-600 text-white px-4 py-2 rounded-r-lg hover:bg-blue-700">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="assets/images/logo.png" alt="Logo" class="h-12 w-auto mb-4">
+                    <h3 class="text-xl font-bold mb-4">Collège le Jour de Divo</h3>
+                    <p class="text-gray-400">Excellence académique et épanouissement personnel pour tous nos élèves.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Accueil</a></li>
+                        <li><a href="apropos.html" class="text-gray-400 hover:text-white">À propos</a></li>
+                        <li><a href="admissions.html" class="text-gray-400 hover:text-white">Admissions</a></li>
+                        <li><a href="vie-scolaire.html" class="text-gray-400 hover:text-white">Vie scolaire</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="espace-eleves.html" class="text-gray-400 hover:text-white">Espace élèves</a></li>
+                        <li><a href="espace-parents.html" class="text-gray-400 hover:text-white">Espace parents</a></li>
+                        <li><a href="espace-enseignants.html" class="text-gray-400 hover:text-white">Espace enseignants</a></li>
+                        <li><a href="paiements.html" class="text-gray-400 hover:text-white">Paiements en ligne</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Divo, Côte d'Ivoire</p>
+                        <p><i class="fas fa-phone mr-2"></i>+225 XX XX XX XX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>contact@collegejourddivo.ci</p>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Collège le Jour de Divo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/admissions.js"></script>
+</body>
+</html>

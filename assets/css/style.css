@@ -1,0 +1,185 @@
+/* Variables CSS */
+:root {
+    /* @tweakable primary color for the college branding */
+    --primary-color: #1e40af;
+    /* @tweakable secondary color for accents */
+    --secondary-color: #eab308;
+    /* @tweakable animation duration for smooth transitions */
+    --animation-duration: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fade-in 1s ease-out;
+}
+
+/* Hero section custom styles */
+.hero-bg {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e3a8a 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+    animation: float 20s infinite linear;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(0px);
+    }
+    to {
+        transform: translateY(-100px);
+    }
+}
+
+/* Card hover effects */
+.card-hover {
+    transition: all var(--animation-duration) ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Custom chatbot styles */
+#chatbot-widget {
+    /* @tweakable chatbot widget size */
+    width: 60px;
+    height: 60px;
+    transition: all var(--animation-duration) ease;
+    animation: pulse 2s infinite;
+}
+
+#chatbot-widget:hover {
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(30, 64, 175, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(30, 64, 175, 0);
+    }
+}
+
+/* Chat messages styles */
+.chat-message {
+    max-width: 80%;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.chat-message.user {
+    background-color: var(--primary-color);
+    color: white;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.chat-message.bot {
+    background-color: #f3f4f6;
+    color: #374151;
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero-section p {
+        font-size: 1.125rem;
+    }
+    
+    #chatbot-window {
+        width: 320px;
+        right: -20px;
+    }
+}
+
+/* Loading animation */
+.loading-dots {
+    display: inline-block;
+}
+
+.loading-dots::after {
+    content: '...';
+    animation: dots 1.5s infinite;
+}
+
+@keyframes dots {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60%, 100% {
+        content: '...';
+    }
+}
+
+/* Smooth scrolling offset for fixed navbar */
+section {
+    scroll-margin-top: 80px;
+}
+
+/* Custom button styles */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #1e3a8a 100%);
+    transition: all var(--animation-duration) ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(30, 64, 175, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #ca8a04 100%);
+    transition: all var(--animation-duration) ease;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(234, 179, 8, 0.3);
+}
+

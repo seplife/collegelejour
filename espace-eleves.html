@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Espace Élèves - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-inter bg-gray-100">
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Espace Élèves</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center text-sm text-gray-600">
+                        <i class="fas fa-user-graduate mr-2"></i>
+                        <span id="student-name">Jean KOUAME</span>
+                        <span class="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">3ème A</span>
+                    </div>
+                    <button id="logout-btn" class="text-gray-600 hover:text-red-600 transition-colors">
+                        <i class="fas fa-sign-out-alt mr-1"></i>Déconnexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="text-center mb-6">
+                        <img src="assets/images/student-avatar.jpg" alt="Photo" class="w-20 h-20 rounded-full mx-auto mb-3 object-cover bg-gray-200">
+                        <h3 class="font-semibold text-gray-900" id="sidebar-student-name">Jean KOUAME</h3>
+                        <p class="text-sm text-gray-600" id="sidebar-student-class">3ème A</p>
+                        <p class="text-xs text-gray-500 mt-1">ID: eleve001</p>
+                    </div>
+                    
+                    <nav class="space-y-2">
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md bg-blue-100 text-blue-700" data-section="dashboard">
+                            <i class="fas fa-home mr-3"></i>Tableau de bord
+                        </button>
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100" data-section="notes">
+                            <i class="fas fa-chart-bar mr-3"></i>Notes & Bulletins
+                        </button>
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100" data-section="emploi-temps">
+                            <i class="fas fa-calendar-alt mr-3"></i>Emploi du temps
+                        </button>
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100" data-section="devoirs">
+                            <i class="fas fa-tasks mr-3"></i>Devoirs
+                        </button>
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100" data-section="absences">
+                            <i class="fas fa-user-clock mr-3"></i>Absences
+                        </button>
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100" data-section="documents">
+                            <i class="fas fa-file-alt mr-3"></i>Documents
+                        </button>
+                        <button class="nav-item w-full flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100" data-section="profil">
+                            <i class="fas fa-user-cog mr-3"></i>Mon Profil
+                        </button>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div id="dashboard" class="content-section">
+                    <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-4">
+                            <i class="fas fa-home mr-2 text-blue-600"></i>Tableau de bord
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4 rounded-lg text-white">
+                                <div class="flex items-center">
+                                    <i class="fas fa-chart-line text-2xl opacity-80"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm opacity-80">Moyenne générale</p>
+                                        <p class="text-xl font-bold">14.5</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-r from-green-500 to-green-600 p-4 rounded-lg text-white">
+                                <div class="flex items-center">
+                                    <i class="fas fa-tasks text-2xl opacity-80"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm opacity-80">Devoirs à rendre</p>
+                                        <p class="text-xl font-bold">3</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 p-4 rounded-lg text-white">
+                                <div class="flex items-center">
+                                    <i class="fas fa-user-clock text-2xl opacity-80"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm opacity-80">Absences ce mois</p>
+                                        <p class="text-xl font-bold">2</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-4 rounded-lg text-white">
+                                <div class="flex items-center">
+                                    <i class="fas fa-trophy text-2xl opacity-80"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm opacity-80">Rang de classe</p>
+                                        <p class="text-xl font-bold">7/32</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold mb-3">Actions rapides</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="quick-action bg-blue-50 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-100 transition-colors" data-action="voir-devoirs">
+                                    <i class="fas fa-tasks mr-2"></i>Voir mes devoirs
+                                </button>
+                                <button class="quick-action bg-green-50 text-green-700 px-4 py-2 rounded-lg hover:bg-green-100 transition-colors" data-action="dernieres-notes">
+                                    <i class="fas fa-chart-bar mr-2"></i>Dernières notes
+                                </button>
+                                <button class="quick-action bg-purple-50 text-purple-700 px-4 py-2 rounded-lg hover:bg-purple-100 transition-colors" data-action="emploi-temps-jour">
+                                    <i class="fas fa-calendar-day mr-2"></i>Emploi du temps du jour
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-3">Activité récente</h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="fas fa-check-circle text-green-600 mr-3"></i>
+                                        <div>
+                                            <p class="text-sm font-medium">Devoir de Math rendu</p>
+                                            <p class="text-xs text-gray-500">Il y a 2 heures</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="fas fa-star text-yellow-600 mr-3"></i>
+                                        <div>
+                                            <p class="text-sm font-medium">Nouvelle note de 18/20 en Français</p>
+                                            <p class="text-xs text-gray-500">Il y a 1 jour</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                        <i class="fas fa-bell text-red-600 mr-3"></i>
+                                        <div>
+                                            <p class="text-sm font-medium">Rappel : Devoir de Physique à rendre</p>
+                                            <p class="text-xs text-gray-500">Demain, 17h</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-lg font-semibold mb-3">Événements à venir</h3>
+                                <div class="space-y-3">
+                                    <div class="p-3 bg-indigo-50 rounded-lg border-l-4 border-indigo-500">
+                                        <div class="flex items-center justify-between">
+                                            <p class="font-medium text-indigo-800">Conseil de Classe</p>
+                                            <span class="text-sm text-indigo-600">18 Déc. 2024</span>
+                                        </div>
+                                        <p class="text-xs text-indigo-700 mt-1">Évaluation du 1er trimestre.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="notes" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">
+                            <i class="fas fa-chart-bar mr-2 text-green-600"></i>Mes Notes & Bulletins
+                        </h2>
+                        
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Matière</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Note</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Commentaire</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Mathématiques</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Devoir surveillé</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">18/20</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08/12/2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Excellent travail.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Français</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Interrogation écrite</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">12/20</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">05/12/2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Des efforts à faire en grammaire.</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Physique-Chimie</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Devoir maison</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">15.5/20</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">01/12/2024</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Bonne rédaction.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="emploi-temps" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">
+                            <i class="fas fa-calendar-alt mr-2 text-purple-600"></i>Mon Emploi du temps
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-7 gap-2 text-center">
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Lundi</div>
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Mardi</div>
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Mercredi</div>
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Jeudi</div>
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Vendredi</div>
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Samedi</div>
+                            <div class="p-2 bg-gray-200 font-semibold rounded-lg text-sm text-gray-800">Dimanche</div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-7 gap-2 mt-2">
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <p class="text-xs text-gray-600">8h30 - 10h00</p>
+                                <p class="font-medium text-gray-900">Mathématiques</p>
+                                <p class="text-xs text-gray-500">M. Koné</p>
+                            </div>
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <p class="text-xs text-gray-600">10h30 - 12h00</p>
+                                <p class="font-medium text-gray-900">Français</p>
+                                <p class="text-xs text-gray-500">Mme Diallo</p>
+                            </div>
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <p class="text-xs text-gray-600">8h30 - 10h00</p>
+                                <p class="font-medium text-gray-900">Physique-Chimie</p>
+                                <p class="text-xs text-gray-500">M. Traoré</p>
+                            </div>
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <p class="text-xs text-gray-600">10h30 - 12h00</p>
+                                <p class="font-medium text-gray-900">Histoire-Géo</p>
+                                <p class="text-xs text-gray-500">Mme Bamba</p>
+                            </div>
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <p class="text-xs text-gray-600">13h00 - 14h30</p>
+                                <p class="font-medium text-gray-900">Anglais</p>
+                                <p class="text-xs text-gray-500">M. Kouassi</p>
+                            </div>
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg">
+                                <p class="text-xs text-gray-600">9h00 - 10h30</p>
+                                <p class="font-medium text-gray-900">Sport</p>
+                                <p class="text-xs text-gray-500">Mme Kone</p>
+                            </div>
+                            <div class="p-4 bg-white border border-gray-200 rounded-lg opacity-50">
+                                <p class="text-sm text-gray-500">Repos</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="devoirs" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">
+                            <i class="fas fa-tasks mr-2 text-green-600"></i>Mes Devoirs
+                        </h2>
+                        
+                        <div class="space-y-4">
+                            <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-yellow-500">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900">
+                                        <i class="fas fa-clipboard-list mr-2 text-yellow-500"></i>Devoir de Mathématiques
+                                    </h3>
+                                    <span class="text-sm text-gray-600">Date limite: 15/12/2024</span>
+                                </div>
+                                <p class="text-sm text-gray-700 mt-2">Faire les exercices 5, 6 et 8 page 45 sur les équations du second degré.</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-2">
+                                    <i class="fas fa-info-circle mr-1"></i>
+                                    <span>Statut: Non rendu</span>
+                                </div>
+                                <button class="mt-4 bg-blue-600 text-white px-3 py-1 text-xs rounded hover:bg-blue-700">
+                                    Rendre le devoir
+                                </button>
+                            </div>
+                            
+                            <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-green-500">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900">
+                                        <i class="fas fa-clipboard-list mr-2 text-green-500"></i>Devoir de Français
+                                    </h3>
+                                    <span class="text-sm text-gray-600">Date limite: 10/12/2024</span>
+                                </div>
+                                <p class="text-sm text-gray-700 mt-2">Rédiger une dissertation sur "La poésie et l'engagement".</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-2">
+                                    <i class="fas fa-check-circle mr-1 text-green-600"></i>
+                                    <span>Rendu le: 10 Décembre 2024</span>
+                                </div>
+                                <div class="mt-2 bg-green-100 text-green-800 px-2 py-1 rounded w-max">Note: 15/20</div>
+                            </div>
+                            
+                            <div class="p-4 bg-gray-50 rounded-lg border-l-4 border-red-500">
+                                <div class="flex items-center justify-between">
+                                    <h3 class="font-semibold text-gray-900">
+                                        <i class="fas fa-clipboard-list mr-2 text-red-500"></i>Devoir de Physique-Chimie
+                                    </h3>
+                                    <span class="text-sm text-gray-600">Date limite: 05/12/2024</span>
+                                </div>
+                                <p class="text-sm text-gray-700 mt-2">Projet de groupe sur la "Propagation des ondes sonores".</p>
+                                <div class="flex items-center text-xs text-gray-500 mt-2">
+                                    <i class="fas fa-times-circle mr-1 text-red-600"></i>
+                                    <span>Statut: Non rendu (en retard)</span>
+                                </div>
+                                <button class="mt-4 bg-gray-400 text-white px-3 py-1 text-xs rounded cursor-not-allowed">
+                                    Rendu en retard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="absences" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">
+                            <i class="fas fa-user-clock mr-2 text-yellow-600"></i>Mes Absences & Retards
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-red-50 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-times-circle text-red-600 text-2xl"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-red-600">Absences non justifiées</p>
+                                        <p class="text-xl font-bold text-red-700">1</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-exclamation-circle text-yellow-600 text-2xl"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-yellow-600">Absences justifiées</p>
+                                        <p class="text-xl font-bold text-yellow-700">2</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-orange-50 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-clock text-orange-600 text-2xl"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-orange-600">Retards</p>
+                                        <p class="text-xl font-bold text-orange-700">3</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="flex items-center">
+                                    <i class="fas fa-calendar-check text-blue-600 text-2xl"></i>
+                                    <div class="ml-3">
+                                        <p class="text-sm text-blue-600">Jours de présence</p>
+                                        <p class="text-xl font-bold text-blue-700">94%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="flex items-start p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-times text-white text-sm"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold text-red-800">Absence non justifiée</h3>
+                                        <span class="text-sm text-red-600 font-medium">À justifier</span>
+                                    </div>
+                                    <p class="text-sm text-red-700 mt-1">5 Décembre 2024 - Cours de Mathématiques (8h25-9h20)</p>
+                                    <p class="text-xs text-red-600 mt-2">Veuillez fournir un justificatif dans les plus brefs délais</p>
+                                    <button class="mt-2 bg-red-600 text-white px-3 py-1 text-xs rounded hover:bg-red-700">
+                                        Justifier l'absence
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold text-yellow-800">Absence justifiée</h3>
+                                        <span class="text-sm text-yellow-600 font-medium">Validé</span>
+                                    </div>
+                                    <p class="text-sm text-yellow-700 mt-1">28 Novembre 2024 - Journée complète</p>
+                                    <p class="text-xs text-yellow-600 mt-2">Motif : Maladie (Certificat médical fourni)</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
+                                <div class="flex-shrink-0">
+                                    <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-clock text-white text-sm"></i>
+                                    </div>
+                                </div>
+                                <div class="ml-4 flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h3 class="text-lg font-semibold text-orange-800">Retard</h3>
+                                        <span class="text-sm text-orange-600 font-medium">15 minutes</span>
+                                    </div>
+                                    <p class="text-sm text-orange-700 mt-1">25 Novembre 2024 - Cours d'Histoire-Géographie</p>
+                                    <p class="text-xs text-orange-600 mt-2">Arrivée à 8h40 au lieu de 8h25</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="documents" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">
+                            <i class="fas fa-file-alt mr-2 text-indigo-600"></i>Mes Documents
+                        </h2>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <button class="doc-filter px-4 py-2 text-sm font-medium rounded-lg bg-indigo-100 text-indigo-700" data-category="all">
+                                Tous les documents
+                            </button>
+                            <button class="doc-filter px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-category="bulletins">
+                                Bulletins
+                            </button>
+                            <button class="doc-filter px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-category="certificats">
+                                Certificats
+                            </button>
+                            <button class="doc-filter px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-100" data-category="attestations">
+                                Attestations
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div class="document-item bg-blue-50 p-4 rounded-lg border hover:shadow-md transition-shadow" data-category="bulletins">
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-file-pdf text-red-600 text-2xl mr-3"></i>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900">Bulletin 1er Trimestre</h3>
+                                        <p class="text-sm text-gray-600">Année 2024-2025</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">Généré le: 15/12/2024</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-600 hover:text-green-800">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item bg-green-50 p-4 rounded-lg border hover:shadow-md transition-shadow" data-category="certificats">
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-file-pdf text-red-600 text-2xl mr-3"></i>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900">Certificat de Scolarité</h3>
+                                        <p class="text-sm text-gray-600">2024-2025</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">Délivré le: 10/09/2024</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-600 hover:text-green-800">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="document-item bg-purple-50 p-4 rounded-lg border hover:shadow-md transition-shadow" data-category="attestations">
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-file-pdf text-red-600 text-2xl mr-3"></i>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900">Attestation de Réussite</h3>
+                                        <p class="text-sm text-gray-600">Passage en 3ème</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-gray-500">Délivré le: 05/07/2024</span>
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-800">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-600 hover:text-green-800">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 p-4 bg-gray-50 rounded-lg">
+                            <h3 class="font-semibold mb-3">Demander un nouveau document</h3>
+                            <div class="flex flex-wrap gap-3">
+                                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                    <i class="fas fa-file-alt mr-2"></i>Certificat de scolarité
+                                </button>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                    <i class="fas fa-medal mr-2"></i>Relevé de notes
+                                </button>
+                                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                                    <i class="fas fa-award mr-2"></i>Attestation de mérite
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="profil" class="content-section hidden">
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <h2 class="text-xl font-bold text-gray-900 mb-6">
+                            <i class="fas fa-user-cog mr-2 text-gray-600"></i>Mon Profil
+                        </h2>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Informations personnelles</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                                        <input type="text" value="Jean KOUAME" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Date de naissance</label>
+                                        <input type="text" value="15 Mars 2009" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Classe</label>
+                                        <input type="text" value="3ème A" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Numéro d'étudiant</label>
+                                        <input type="text" value="eleve001" class="w-full border border-gray-300 rounded-lg px-3 py-2 bg-gray-50" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="text-lg font-semibold mb-4">Paramètres du compte</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email de contact</label>
+                                        <input type="email" value="jean.kouame@example.com" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                                        <input type="tel" value="+225 XX XX XX XX" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Photo de profil</label>
+                                        <div class="flex items-center space-x-4">
+                                            <img src="assets/images/student-avatar.jpg" alt="Photo" class="w-16 h-16 rounded-full object-cover bg-gray-200">
+                                            <button class="bg-blue-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-blue-700">
+                                                <i class="fas fa-camera mr-2"></i>Changer la photo
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-8">
+                                    <h4 class="font-semibold mb-4">Changer le mot de passe</h4>
+                                    <div class="space-y-3">
+                                        <input type="password" placeholder="Mot de passe actuel" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <input type="password" placeholder="Nouveau mot de passe" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <input type="password" placeholder="Confirmer le nouveau mot de passe" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <button class="bg-green-600 text-white px-4 py-2 text-sm rounded-lg hover:bg-green-700">
+                                            Mettre à jour le mot de passe
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8 flex justify-end space-x-3">
+                            <button class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                                Annuler
+                            </button>
+                            <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                Sauvegarder les modifications
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/espace-eleves.js"></script>
+</body>
+</html>
