@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiements en ligne - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Paiements en ligne</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-gray-700 hover:text-blue-600 transition-colors">À propos</a>
+                    <a href="admissions.html" class="text-gray-700 hover:text-blue-600 transition-colors">Admissions</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                    <button onclick="handleAuth('login')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-green-900 to-green-700 text-white pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">Paiements en ligne</h1>
+            <p class="text-xl opacity-90">Réglez vos frais de scolarité en toute sécurité</p>
+        </div>
+    </section>
+
+    <!-- Payment Form -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">Effectuer un paiement</h2>
+                
+                <!-- Step Indicator -->
+                <div class="flex items-center justify-center mb-8">
+                    <div class="flex items-center">
+                        <div class="step-indicator active flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full font-bold mr-4">1</div>
+                        <span class="text-sm font-medium text-blue-600 mr-8">Informations</span>
+                        <div class="w-16 h-1 bg-gray-300 mr-8"></div>
+                        <div class="step-indicator flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 rounded-full font-bold mr-4">2</div>
+                        <span class="text-sm font-medium text-gray-500 mr-8">Paiement</span>
+                        <div class="w-16 h-1 bg-gray-300 mr-8"></div>
+                        <div class="step-indicator flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 rounded-full font-bold mr-4">3</div>
+                        <span class="text-sm font-medium text-gray-500">Confirmation</span>
+                    </div>
+                </div>
+
+                <!-- Step 1: Student Information -->
+                <div id="step-1" class="step-content">
+                    <form id="student-info-form" class="space-y-6">
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-blue-800">Informations de l'élève</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom de l'élève *</label>
+                                    <input type="text" name="student_name" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Numéro d'étudiant *</label>
+                                    <input type="text" name="student_id" required placeholder="Ex: eleve001" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Classe *</label>
+                                    <select name="class" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Sélectionner une classe</option>
+                                        <option value="6eme">6ème</option>
+                                        <option value="5eme">5ème</option>
+                                        <option value="4eme">4ème</option>
+                                        <option value="3eme">3ème</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Année scolaire *</label>
+                                    <select name="school_year" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="2024-2025">2024-2025</option>
+                                        <option value="2025-2026">2025-2026</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-green-800">Type de paiement</h3>
+                            <div class="space-y-3">
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                                    <input type="radio" name="payment_type" value="scolarite_complete" class="mr-3 text-blue-600">
+                                    <div class="flex-1">
+                                        <div class="font-medium">Scolarité complète</div>
+                                        <div class="text-sm text-gray-600">Paiement de l'année complète (remise de 5%)</div>
+                                    </div>
+                                    <div class="font-bold text-green-600" id="full-amount">0 FCFA</div>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                                    <input type="radio" name="payment_type" value="tranche_1" class="mr-3 text-blue-600">
+                                    <div class="flex-1">
+                                        <div class="font-medium">1ère tranche</div>
+                                        <div class="text-sm text-gray-600">Paiement du premier trimestre</div>
+                                    </div>
+                                    <div class="font-bold text-green-600" id="first-installment">0 FCFA</div>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                                    <input type="radio" name="payment_type" value="tranche_2" class="mr-3 text-blue-600">
+                                    <div class="flex-1">
+                                        <div class="font-medium">2ème tranche</div>
+                                        <div class="text-sm text-gray-600">Paiement du deuxième trimestre</div>
+                                    </div>
+                                    <div class="font-bold text-green-600" id="second-installment">0 FCFA</div>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                                    <input type="radio" name="payment_type" value="tranche_3" class="mr-3 text-blue-600">
+                                    <div class="flex-1">
+                                        <div class="font-medium">3ème tranche</div>
+                                        <div class="text-sm text-gray-600">Paiement du troisième trimestre</div>
+                                    </div>
+                                    <div class="font-bold text-green-600" id="third-installment">0 FCFA</div>
+                                </label>
+                                <label class="flex items-center p-3 border border-gray-300 rounded-lg hover:bg-white transition-colors cursor-pointer">
+                                    <input type="radio" name="payment_type" value="autres_frais" class="mr-3 text-blue-600">
+                                    <div class="flex-1">
+                                        <div class="font-medium">Autres frais</div>
+                                        <div class="text-sm text-gray-600">Transport, cantine, activités, etc.</div>
+                                    </div>
+                                    <div class="font-bold text-green-600">Variable</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Other fees detail -->
+                        <div id="other-fees-section" class="bg-yellow-50 p-6 rounded-lg hidden">
+                            <h4 class="font-semibold mb-3 text-yellow-800">Détail des autres frais</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="other_fees[]" value="transport" class="mr-2 text-blue-600">
+                                    <span class="text-sm">Transport scolaire (150,000 FCFA/an)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="other_fees[]" value="cantine" class="mr-2 text-blue-600">
+                                    <span class="text-sm">Cantine (120,000 FCFA/an)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="other_fees[]" value="fournitures" class="mr-2 text-blue-600">
+                                    <span class="text-sm">Fournitures scolaires (50,000 FCFA)</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="checkbox" name="other_fees[]" value="activites" class="mr-2 text-blue-600">
+                                    <span class="text-sm">Activités extra-scolaires (25,000 FCFA)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="bg-purple-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-purple-800">Informations du payeur</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom du payeur *</label>
+                                    <input type="text" name="payer_name" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
+                                    <input type="tel" name="payer_phone" required placeholder="+225 XX XX XX XX" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" name="payer_email" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Relation avec l'élève *</label>
+                                    <select name="relation" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Sélectionner</option>
+                                        <option value="pere">Père</option>
+                                        <option value="mere">Mère</option>
+                                        <option value="tuteur">Tuteur</option>
+                                        <option value="autre">Autre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                Continuer vers le paiement
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 2: Payment Method -->
+                <div id="step-2" class="step-content hidden">
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-4">Récapitulatif</h3>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div id="payment-summary"></div>
+                            <div class="border-t pt-3 mt-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-lg font-bold">Total à payer :</span>
+                                    <span class="text-2xl font-bold text-green-600" id="total-amount">0 FCFA</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Mobile Money -->
+                        <div class="payment-method border border-gray-300 rounded-lg p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" data-method="mobile">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-mobile-alt text-2xl text-orange-500 mr-3"></i>
+                                <h4 class="text-lg font-semibold">Mobile Money</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Orange Money, MTN Money, Moov Money</p>
+                            <div class="flex space-x-2">
+                                <img src="assets/images/orange-money.png" alt="Orange Money" class="h-8">
+                                <img src="assets/images/mtn-money.png" alt="MTN Money" class="h-8">
+                                <img src="assets/images/moov-money.png" alt="Moov Money" class="h-8">
+                            </div>
+                        </div>
+
+                        <!-- Carte Bancaire -->
+                        <div class="payment-method border border-gray-300 rounded-lg p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" data-method="card">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-credit-card text-2xl text-blue-500 mr-3"></i>
+                                <h4 class="text-lg font-semibold">Carte Bancaire</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-4">Visa, MasterCard</p>
+                            <div class="flex space-x-2">
+                                <img src="assets/images/visa.png" alt="Visa" class="h-8">
+                                <img src="assets/images/mastercard.png" alt="MasterCard" class="h-8">
+                            </div>
+                        </div>
+
+                        <!-- Virement Bancaire -->
+                        <div class="payment-method border border-gray-300 rounded-lg p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" data-method="transfer">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-university text-2xl text-green-500 mr-3"></i>
+                                <h4 class="text-lg font-semibold">Virement Bancaire</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">Transfert bancaire direct</p>
+                        </div>
+
+                        <!-- Paiement en Espèces -->
+                        <div class="payment-method border border-gray-300 rounded-lg p-6 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-all" data-method="cash">
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-money-bill text-2xl text-gray-500 mr-3"></i>
+                                <h4 class="text-lg font-semibold">Espèces</h4>
+                            </div>
+                            <p class="text-gray-600 text-sm">Paiement au secrétariat</p>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details Form -->
+                    <div id="payment-details" class="mt-6 hidden">
+                        <!-- Will be populated based on selected method -->
+                    </div>
+
+                    <div class="flex justify-between mt-8">
+                        <button id="back-to-step1" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                            <i class="fas fa-arrow-left mr-2"></i>Retour
+                        </button>
+                        <button id="proceed-payment" class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50" disabled>
+                            Procéder au paiement
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Confirmation -->
+                <div id="step-3" class="step-content hidden">
+                    <div class="text-center">
+                        <div class="mb-6">
+                            <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Paiement confirmé !</h3>
+                            <p class="text-gray-600">Votre paiement a été traité avec succès</p>
+                        </div>
+
+                        <div class="bg-green-50 p-6 rounded-lg mb-6 text-left">
+                            <h4 class="font-semibold mb-3 text-green-800">Détails de la transaction</h4>
+                            <div id="transaction-details"></div>
+                        </div>
+
+                        <div class="flex justify-center space-x-4">
+                            <button id="download-receipt" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-download mr-2"></i>Télécharger le reçu
+                            </button>
+                            <button id="send-receipt-email" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                                <i class="fas fa-envelope mr-2"></i>Envoyer par email
+                            </button>
+                        </div>
+
+                        <div class="mt-6">
+                            <a href="index.html" class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-home mr-2"></i>Retour à l'accueil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Info -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Paiement 100% sécurisé</h3>
+            <p class="text-gray-600 mb-8">Vos données bancaires sont protégées par un cryptage SSL 256 bits</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="flex items-center justify-center p-4">
+                    <i class="fas fa-shield-alt text-3xl text-green-600 mr-3"></i>
+                    <div class="text-left">
+                        <h4 class="font-semibold">Sécurisé</h4>
+                        <p class="text-sm text-gray-600">Cryptage SSL</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center p-4">
+                    <i class="fas fa-lock text-3xl text-blue-600 mr-3"></i>
+                    <div class="text-left">
+                        <h4 class="font-semibold">Confidentiel</h4>
+                        <p class="text-sm text-gray-600">Données protégées</p>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center p-4">
+                    <i class="fas fa-clock text-3xl text-purple-600 mr-3"></i>
+                    <div class="text-left">
+                        <h4 class="font-semibold">Instantané</h4>
+                        <p class="text-sm text-gray-600">Traitement immédiat</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="assets/images/logo.png" alt="Logo" class="h-12 w-auto mb-4">
+                    <h3 class="text-xl font-bold mb-4">Collège le Jour de Divo</h3>
+                    <p class="text-gray-400">Excellence académique et épanouissement personnel pour tous nos élèves.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white">Accueil</a></li>
+                        <li><a href="apropos.html" class="text-gray-400 hover:text-white">À propos</a></li>
+                        <li><a href="admissions.html" class="text-gray-400 hover:text-white">Admissions</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="espace-eleves.html" class="text-gray-400 hover:text-white">Espace élèves</a></li>
+                        <li><a href="espace-parents.html" class="text-gray-400 hover:text-white">Espace parents</a></li>
+                        <li><a href="espace-enseignants.html" class="text-gray-400 hover:text-white">Espace enseignants</a></li>
+                        <li><a href="paiements.html" class="text-gray-400 hover:text-white">Paiements en ligne</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Divo, Côte d'Ivoire</p>
+                        <p><i class="fas fa-phone mr-2"></i>+225 XX XX XX XX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>contact@collegejourddivo.ci</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Collège le Jour de Divo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/paiements.js"></script>
+</body>
+</html>
