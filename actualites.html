@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+        .category-filter.active { background-color: #3b82f6; color: white; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .priority-badge { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .news-item { scroll-margin-top: 100px; }
+        .floating-fab { position: fixed; bottom: 2rem; right: 2rem; z-index: 40; }
+        .search-highlight { background-color: #fef08a; padding: 0 2px; border-radius: 2px; }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Collège le Jour de Divo</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-gray-700 hover:text-blue-600 transition-colors">À propos</a>
+                    <a href="actualites.html" class="text-blue-600 font-medium">Actualités</a>
+                    <a href="admissions.html" class="text-gray-700 hover:text-blue-600 transition-colors">Admissions</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                    <a href="inscriptions.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-user-plus mr-2"></i>S'inscrire
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 pb-4">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Accueil</a>
+                    <a href="apropos.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">À propos</a>
+                    <a href="actualites.html" class="block px-3 py-2 text-blue-600 font-medium">Actualités</a>
+                    <a href="admissions.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Admissions</a>
+                    <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+                    <a href="inscription.html" class="block px-3 py-2 bg-blue-600 text-white rounded-lg">S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Actualités du Collège</h1>
+            <p class="text-xl opacity-90 mb-8 max-w-3xl mx-auto">
+                Restez informés de toutes les nouveautés, événements et réussites de notre établissement
+            </p>
+            
+            <!-- Search and filters -->
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg p-6 shadow-xl">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Search bar -->
+                        <div class="flex-1 relative">
+                            <input type="text" id="search-input" placeholder="Rechercher dans les actualités..." 
+                                   class="w-full px-4 py-3 pl-10 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        
+                        <!-- Date filter -->
+                        <select id="date-filter" class="px-4 py-3 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Toutes les périodes</option>
+                            <option value="today">Aujourd'hui</option>
+                            <option value="week">Cette semaine</option>
+                            <option value="month">Ce mois</option>
+                            <option value="year">Cette année</option>
+                        </select>
+                        
+                        <!-- Search button -->
+                        <button onclick="performSearch()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            <i class="fas fa-search mr-2"></i>Rechercher
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <!-- Breaking News Banner -->
+        <div id="breaking-news" class="mb-8">
+            <!-- Breaking news will be populated here -->
+        </div>
+
+        <!-- Category Filter -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Filtrer par catégorie</h2>
+            <div class="flex flex-wrap gap-3">
+                <button onclick="filterByCategory('')" class="category-filter active px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    Toutes
+                </button>
+                <button onclick="filterByCategory('actualites')" class="category-filter px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    <i class="fas fa-newspaper mr-1"></i>Actualités générales
+                </button>
+                <button onclick="filterByCategory('evenements')" class="category-filter px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    <i class="fas fa-calendar-alt mr-1"></i>Événements
+                </button>
+                <button onclick="filterByCategory('reussites')" class="category-filter px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    <i class="fas fa-trophy mr-1"></i>Réussites
+                </button>
+                <button onclick="filterByCategory('pedagogie')" class="category-filter px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    <i class="fas fa-graduation-cap mr-1"></i>Pédagogie
+                </button>
+                <button onclick="filterByCategory('vie-scolaire')" class="category-filter px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    <i class="fas fa-users mr-1"></i>Vie scolaire
+                </button>
+                <button onclick="filterByCategory('parents')" class="category-filter px-4 py-2 rounded-full border border-gray-300 text-sm font-medium hover:bg-blue-600 hover:text-white transition-colors">
+                    <i class="fas fa-family mr-1"></i>Information parents
+                </button>
+            </div>
+        </div>
+
+        <!-- Featured Article -->
+        <div id="featured-article" class="mb-12">
+            <!-- Featured article will be populated here -->
+        </div>
+
+        <!-- News Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Main Articles Column -->
+            <div class="lg:col-span-2">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-900">Dernières actualités</h2>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-gray-600">Trier par :</span>
+                        <select id="sort-select" onchange="sortArticles()" class="text-sm border border-gray-300 rounded px-2 py-1">
+                            <option value="date-desc">Plus récent</option>
+                            <option value="date-asc">Plus ancien</option>
+                            <option value="title">Titre A-Z</option>
+                            <option value="category">Catégorie</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="news-container" class="space-y-6">
+                    <!-- News articles will be populated here -->
+                </div>
+
+                <!-- Load More Button -->
+                <div class="text-center mt-8">
+                    <button id="load-more-btn" onclick="loadMoreNews()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Charger plus d'actualités
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1">
+                <!-- Urgent Announcements -->
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 mb-6 rounded-lg">
+                    <h3 class="text-lg font-semibold text-red-800 mb-3">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>Annonces urgentes
+                    </h3>
+                    <div id="urgent-announcements">
+                        <!-- Urgent announcements will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-chart-bar mr-2"></i>En chiffres
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Articles publiés</span>
+                            <span id="stats-articles" class="font-bold text-blue-600">127</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Ce mois-ci</span>
+                            <span id="stats-month" class="font-bold text-green-600">8</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Événements à venir</span>
+                            <span id="stats-events" class="font-bold text-purple-600">5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Events -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-calendar mr-2"></i>Événements à venir
+                    </h3>
+                    <div id="upcoming-events" class="space-y-3">
+                        <!-- Upcoming events will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Photo Gallery Preview -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-images mr-2"></i>Galerie photo
+                    </h3>
+                    <div id="photo-preview" class="grid grid-cols-2 gap-2">
+                        <!-- Photo gallery preview will be populated here -->
+                    </div>
+                    <a href="galerie.html" class="block text-center mt-4 text-blue-600 hover:text-blue-800 font-medium">
+                        Voir toutes les photos <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+
+                <!-- Newsletter Signup -->
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-6">
+                    <h3 class="text-lg font-semibold mb-3">
+                        <i class="fas fa-envelope mr-2"></i>Newsletter
+                    </h3>
+                    <p class="text-sm mb-4 opacity-90">Recevez nos actualités directement dans votre boîte mail</p>
+                    <form id="newsletter-form" onsubmit="subscribeNewsletter(event)">
+                        <input type="email" placeholder="Votre email" required 
+                               class="w-full px-3 py-2 rounded-lg text-gray-900 mb-3 focus:outline-none focus:ring-2 focus:ring-white">
+                        <button type="submit" class="w-full bg-white text-blue-600 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+                            S'abonner
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Article Modal -->
+    <div id="article-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
+                <h2 id="modal-title" class="text-xl font-semibold text-gray-900"></h2>
+                <button onclick="closeArticleModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-6">
+                <div id="modal-content">
+                    <!-- Article content will be populated here -->
+                </div>
+                
+                <!-- Sharing buttons -->
+                <div class="border-t border-gray-200 pt-6 mt-6">
+                    <h3 class="text-lg font-semibold mb-4">Partager cet article</h3>
+                    <div class="flex space-x-4">
+                        <button onclick="shareArticle('facebook')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            <i class="fab fa-facebook-f mr-2"></i>Facebook
+                        </button>
+                        <button onclick="shareArticle('twitter')" class="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500">
+                            <i class="fab fa-twitter mr-2"></i>Twitter
+                        </button>
+                        <button onclick="shareArticle('whatsapp')" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
+                            <i class="fab fa-whatsapp mr-2"></i>WhatsApp
+                        </button>
+                        <button onclick="shareArticle('copy')" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+                            <i class="fas fa-copy mr-2"></i>Copier le lien
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-fab">
+        <button onclick="scrollToTop()" class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 transition-colors">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto mr-3">
+                        <h3 class="text-xl font-bold">Collège le Jour</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm">
+                        Un établissement d'excellence pour former les leaders de demain.
+                    </p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Liens rapides</h4>
+                    <ul class="text-gray-400 space-y-2 text-sm">
+                        <li><a href="index.html" class="hover:text-white">Accueil</a></li>
+                        <li><a href="apropos.html" class="hover:text-white">À propos</a></li>
+                        <li><a href="admissions.html" class="hover:text-white">Admissions</a></li>
+                        <li><a href="programmes.html" class="hover:text-white">Programmes</a></li>
+                        <li><a href="contact.html" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Actualités</h4>
+                    <ul class="text-gray-400 space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Dernières nouvelles</a></li>
+                        <li><a href="#" class="hover:text-white">Événements</a></li>
+                        <li><a href="#" class="hover:text-white">Réussites</a></li>
+                        <li><a href="#" class="hover:text-white">Galerie photo</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Contact</h4>
+                    <div class="text-gray-400 space-y-2 text-sm">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Divo, Côte d'Ivoire</p>
+                        <p><i class="fas fa-phone mr-2"></i>+225 XX XX XX XX</p>
+                        <p><i class="fas fa-envelope mr-2"></i>info@collegelejourdivo.ci</p>
+                        <p><i class="fas fa-clock mr-2"></i>Lun - Ven: 7h30 - 17h00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 mt-8 text-center">
+                <p class="text-gray-400 text-sm">
+                    © 2025 Collège le Jour de Divo. Tous droits réservés.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample data - In a real application, this would come from an API
+        let allNews = [
+            {
+                id: 1,
+                title: "Excellence académique : Nos élèves brillent aux examens nationaux",
+                summary: "Cette année encore, nos élèves ont obtenu d'excellents résultats aux examens du BEPC avec un taux de réussite de 95%.",
+                content: `<p>Nous sommes fiers d'annoncer que nos élèves ont obtenu un taux de réussite exceptionnel de 95% au BEPC cette année, confirmant une fois de plus l'excellence de notre système éducatif.</p>
+                         <p>Parmi nos élèves, 15 ont obtenu une mention Très Bien, 28 une mention Bien, et 35 une mention Assez Bien. Ces résultats remarquables témoignent du dévouement de nos enseignants et de l'engagement de nos élèves.</p>
+                         <p>Félicitations à tous nos lauréats et à leurs familles pour ces brillants résultats !</p>`,
+                category: "reussites",
+                priority: "normale",
+                featured: true,
+                image: "https://via.placeholder.com/600x300/3b82f6/white?text=Resultats+Examens",
+                author: "Direction Pédagogique",
+                date: "2025-09-15T10:00:00Z",
+                tags: ["examens", "réussite", "BEPC", "excellence"]
+            },
+            {
+                id: 2,
+                title: "Réunion parents-professeurs du 1er trimestre",
+                summary: "Une réunion importante pour faire le point sur les performances et l'adaptation des élèves.",
+                content: `<p>La réunion parents-professeurs du premier trimestre aura lieu le vendredi 20 septembre 2025 de 15h00 à 17h30 dans la salle polyvalente.</p>
+                         <p>Cette rencontre permettra aux parents de rencontrer les enseignants de leurs enfants et de faire le point sur :</p>
+                         <ul><li>Les résultats scolaires du trimestre</li><li>L'adaptation des élèves</li><li>Les objectifs pour le trimestre suivant</li><li>Les éventuelles difficultés rencontrées</li></ul>
+                         <p>Nous comptons sur votre présence nombreuse.</p>`,
+                category: "parents",
+                priority: "importante",
+                featured: false,
+                image: "https://via.placeholder.com/400x200/10b981/white?text=Reunion+Parents",
+                author: "Administration",
+                date: "2025-09-12T14:30:00Z",
+                tags: ["parents", "réunion", "trimestre"]
+            },
+            {
+                id: 3,
+                title: "Nouveau laboratoire de sciences inauguré",
+                summary: "Un laboratoire moderne équipé des dernières technologies pour améliorer l'apprentissage des sciences.",
+                content: `<p>Notre établissement vient d'inaugurer un tout nouveau laboratoire de sciences, équipé des dernières technologies pour offrir à nos élèves les meilleures conditions d'apprentissage.</p>
+                         <p>Ce laboratoire moderne comprend :</p>
+                         <ul><li>20 postes de travail individuels</li><li>Équipements de chimie et physique de pointe</li><li>Microscopes numériques connectés</li><li>Système de sécurité renforcé</li></ul>
+                         <p>Cette infrastructure permettra à nos élèves de réaliser des expériences pratiques et de développer leur esprit scientifique.</p>`,
+                category: "pedagogie",
+                priority: "normale",
+                featured: false,
+                image: "https://via.placeholder.com/400x200/8b5cf6/white?text=Laboratoire+Sciences",
+                author: "Département Sciences",
+                date: "2025-09-10T09:00:00Z",
+                tags: ["sciences", "laboratoire", "équipement", "innovation"]
+            },
+            {
+                id: 4,
+                title: "Concours de mathématiques inter-collèges",
+                summary: "Nos élèves représenteront l'établissement au concours régional de mathématiques.",
+                content: `<p>Cinq de nos meilleurs élèves en mathématiques ont été sélectionnés pour représenter notre établissement au concours inter-collèges qui se déroulera le 25 septembre.</p>
+                         <p>Les élèves sélectionnés sont :</p>
+                         <ul><li>KONE Aminata (3ème A)</li><li>TRAORE Moussa (3ème B)</li><li>OUATTARA Fatoumata (4ème A)</li><li>YEBOUA Jean (4ème B)</li><li>DIABATE Mariam (5ème A)</li></ul>
+                         <p>Nous leur souhaitons bonne chance pour cette compétition qui rassemblera les meilleurs élèves de la région.</p>`,
+                category: "evenements",
+                priority: "normale",
+                featured: false,
+                image: "https://via.placeholder.com/400x200/f59e0b/white?text=Concours+Maths",
+                author: "Département Mathématiques",
+                date: "2025-09-08T16:00:00Z",
+                tags: ["mathématiques", "concours", "compétition", "élèves"]
+            },
+            {
+                id: 5,
+                title: "URGENT: Modification des horaires de sortie",
+                summary: "En raison de travaux, les horaires de sortie sont temporairement modifiés.",
+                content: `<p><strong>ATTENTION :</strong> En raison de travaux de réfection de la route principale, les horaires de sortie sont modifiés à partir du lundi 18 septembre.</p>
+                         <p>Nouveaux horaires :</p>
+                         <ul><li>6ème et 5ème : 16h30 (au lieu de 17h00)</li><li>4ème et 3ème : 16h45 (au lieu de 17h00)</li></ul>
+                         <p>Ces modifications sont temporaires et prendront fin dès la fin des travaux, prévue pour le 30 septembre.</p>
+                         <p>Merci de votre compréhension.</p>`,
+                category: "vie-scolaire",
+                priority: "urgente",
+                featured: false,
+                image: "https://via.placeholder.com/400x200/ef4444/white?text=Horaires+Modifies",
+                author: "Administration",
+                date: "2025-09-14T08:00:00Z",
+                tags: ["horaires", "urgent", "travaux", "transport"]
+            },
+            {
+                id: 6,
+                title: "Journée portes ouvertes - 30 septembre",
+                summary: "Découvrez notre établissement lors de notre journée portes ouvertes annuelle.",
+                content: `<p>Nous organisons notre journée portes ouvertes annuelle le samedi 30 septembre de 9h00 à 16h00.</p>
+                         <p>Au programme :</p>
+                         <ul><li>Visite guidée des installations</li><li>Rencontre avec les enseignants</li><li>Démonstrations dans les laboratoires</li><li>Présentation des activités parascolaires</li><li>Séance d'information sur les admissions</li></ul>
+                         <p>Cette journée est l'occasion idéale pour les futurs élèves et leurs parents de découvrir notre établissement et notre pédagogie.</p>`,
+                category: "evenements",
+                priority: "importante",
+                featured: false,
+                image: "https://via.placeholder.com/400x200/06b6d4/white?text=Portes+Ouvertes",
+                author: "Service Communication",
+                date: "2025-09-07T11:00:00Z",
+                tags: ["portes ouvertes", "visite", "admission", "information"]
+            }
+        ];
+
+        let filteredNews = [...allNews];
+        let currentPage = 1;
+        const newsPerPage = 4;
+        let currentCategory = '';
+        let currentSearchTerm = '';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBreakingNews();
+            loadFeaturedArticle();
+            loadNews();
+            loadSidebar();
+            updateStats();
+        });
+
+        // Breaking news
+        function loadBreakingNews() {
+            const urgentNews = allNews.filter(news => news.priority === 'urgente');
+            const breakingContainer = document.getElementById('breaking-news');
+            
+            if (urgentNews.length > 0) {
+                breakingContainer.innerHTML = urgentNews.map(news => `
+                    <div class="bg-red-100 border-l-4 border-red-500 p-4 rounded-lg animate-fade-in">
+                        <div class="flex items-center">
+                            <span class="priority-badge bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold mr-3">
+                                <i class="fas fa-exclamation-triangle mr-1"></i>URGENT
+                            </span>
+                            <h3 class="font-semibold text-red-800">${news.title}</h3>
+                        </div>
+                        <p class="text-red-700 mt-2">${news.summary}</p>
+                        <button onclick="openArticle(${news.id})" class="text-red-600 hover:text-red-800 font-medium mt-2 inline-block">
+                            Lire la suite <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Featured article
+        function loadFeaturedArticle() {
+            const featured = allNews.find(news => news.featured);
+            if (!featured) return;
+
+            document.getElementById('featured-article').innerHTML = `
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="lg:order-2">
+                            <img src="${featured.image}" alt="${featured.title}" class="w-full h-64 lg:h-full object-cover">
+                        </div>
+                        <div class="p-6 lg:p-8 flex flex-col justify-center">
+                            <div class="flex items-center mb-3">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium mr-3">
+                                    À la une
+                                </span>
+                                <span class="text-gray-500 text-sm">${formatDate(featured.date)}</span>
+                            </div>
+                            <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">${featured.title}</h2>
+                            <p class="text-gray-600 mb-6 leading-relaxed">${featured.summary}</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <i class="fas fa-user mr-2"></i>${featured.author}
+                                </div>
+                                <button onclick="openArticle(${featured.id})" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                                    Lire l'article complet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load news articles
+        function loadNews() {
+            const newsContainer = document.getElementById('news-container');
+            const startIndex = (currentPage - 1) * newsPerPage;
+            const endIndex = startIndex + newsPerPage;
+            const newsToShow = filteredNews.slice(startIndex, endIndex);
+
+            if (currentPage === 1) {
+                newsContainer.innerHTML = '';
+            }
+
+            newsToShow.forEach(news => {
+                if (!news.featured) { // Don't show featured article in regular list
+                    const newsElement = document.createElement('div');
+                    newsElement.className = 'news-item bg-white rounded-lg shadow-lg overflow-hidden card-hover animate-fade-in';
+                    newsElement.innerHTML = `
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-1">
+                                <img src="${news.image}" alt="${news.title}" class="w-full h-48 md:h-full object-cover">
+                            </div>
+                            <div class="md:col-span-2 p-6">
+                                <div class="flex items-center mb-3">
+                                    <span class="bg-${getCategoryColor(news.category)}-100 text-${getCategoryColor(news.category)}-800 px-3 py-1 rounded-full text-sm font-medium mr-3">
+                                        ${getCategoryLabel(news.category)}
+                                    </span>
+                                    ${news.priority === 'importante' ? '<span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium mr-2">Important</span>' : ''}
+                                    <span class="text-gray-500 text-sm">${formatDate(news.date)}</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-blue-600 cursor-pointer" onclick="openArticle(${news.id})">
+                                    ${highlightSearchTerm(news.title)}
+                                </h3>
+                                <p class="text-gray-600 mb-4 leading-relaxed">${highlightSearchTerm(news.summary)}</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fas fa-user mr-2"></i>${news.author}
+                                        <span class="mx-2">•</span>
+                                        <i class="fas fa-tags mr-2"></i>${news.tags.slice(0, 2).join(', ')}
+                                    </div>
+                                    <button onclick="openArticle(${news.id})" class="text-blue-600 hover:text-blue-800 font-medium">
+                                        Lire la suite <i class="fas fa-arrow-right ml-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    newsContainer.appendChild(newsElement);
+                }
+            });
+
+            // Update load more button
+            const loadMoreBtn = document.getElementById('load-more-btn');
+            if (endIndex >= filteredNews.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+        }
+
+        // Load sidebar content
+        function loadSidebar() {
+            // Urgent announcements
+            const urgentAnnouncements = allNews.filter(news => news.priority === 'urgente');
+            document.getElementById('urgent-announcements').innerHTML = urgentAnnouncements.length > 0 
+                ? urgentAnnouncements.map(news => `
+                    <div class="border-b border-red-200 pb-3 mb-3 last:border-b-0 last:pb-0 last:mb-0">
+                        <h4 class="font-medium text-red-800 mb-1">${news.title}</h4>
+                        <p class="text-sm text-red-600">${news.summary.substring(0, 80)}...</p>
+                        <button onclick="openArticle(${news.id})" class="text-xs text-red-700 hover:text-red-900 mt-1">
+                            Lire plus →
+                        </button>
+                    </div>
+                `).join('')
+                : '<p class="text-red-600 text-sm">Aucune annonce urgente pour le moment.</p>';
+
+            // Upcoming events
+            const events = [
+                { title: "Réunion parents-professeurs", date: "20 Sept", icon: "users" },
+                { title: "Concours de mathématiques", date: "25 Sept", icon: "calculator" },
+                { title: "Journée portes ouvertes", date: "30 Sept", icon: "door-open" },
+                { title: "Sortie pédagogique 6ème", date: "5 Oct", icon: "bus" },
+                { title: "Examens mi-trimestre", date: "15 Oct", icon: "edit" }
+            ];
+
+            document.getElementById('upcoming-events').innerHTML = events.map(event => `
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                            <i class="fas fa-${event.icon} text-blue-600 text-xs"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-sm">${event.title}</h4>
+                            <p class="text-xs text-gray-500">${event.date}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Photo gallery preview
+            const photos = [
+                "https://via.placeholder.com/150x100/3b82f6/white?text=Photo+1",
+                "https://via.placeholder.com/150x100/10b981/white?text=Photo+2",
+                "https://via.placeholder.com/150x100/f59e0b/white?text=Photo+3",
+                "https://via.placeholder.com/150x100/ef4444/white?text=Photo+4"
+            ];
+
+            document.getElementById('photo-preview').innerHTML = photos.map(photo => `
+                <img src="${photo}" alt="Photo" class="w-full h-16 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity">
+            `).join('');
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('stats-articles').textContent = allNews.length;
+            document.getElementById('stats-month').textContent = allNews.filter(news => {
+                const newsDate = new Date(news.date);
+                const now = new Date();
+                return newsDate.getMonth() === now.getMonth() && newsDate.getFullYear() === now.getFullYear();
+            }).length;
+            document.getElementById('stats-events').textContent = '5'; // Static for demo
+        }
+
+        // Category filtering
+        function filterByCategory(category) {
+            currentCategory = category;
+            currentPage = 1;
+            
+            // Update active button
+            document.querySelectorAll('.category-filter').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter news
+            if (category === '') {
+                filteredNews = [...allNews];
+            } else {
+                filteredNews = allNews.filter(news => news.category === category);
+            }
+            
+            loadNews();
+        }
+
+        // Search functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const dateFilter = document.getElementById('date-filter').value;
+            
+            currentSearchTerm = searchTerm;
+            currentPage = 1;
+            
+            filteredNews = allNews.filter(news => {
+                const matchesSearch = searchTerm === '' || 
+                    news.title.toLowerCase().includes(searchTerm) ||
+                    news.summary.toLowerCase().includes(searchTerm) ||
+                    news.content.toLowerCase().includes(searchTerm) ||
+                    news.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                const matchesCategory = currentCategory === '' || news.category === currentCategory;
+                
+                let matchesDate = true;
+                if (dateFilter) {
+                    const newsDate = new Date(news.date);
+                    const now = new Date();
+                    
+                    switch(dateFilter) {
+                        case 'today':
+                            matchesDate = newsDate.toDateString() === now.toDateString();
+                            break;
+                        case 'week':
+                            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                            matchesDate = newsDate >= weekAgo;
+                            break;
+                        case 'month':
+                            matchesDate = newsDate.getMonth() === now.getMonth() && 
+                                         newsDate.getFullYear() === now.getFullYear();
+                            break;
+                        case 'year':
+                            matchesDate = newsDate.getFullYear() === now.getFullYear();
+                            break;
+                    }
+                }
+                
+                return matchesSearch && matchesCategory && matchesDate;
+            });
+            
+            loadNews();
+        }
+
+        // Search on Enter key
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        // Sort articles
+        function sortArticles() {
+            const sortBy = document.getElementById('sort-select').value;
+            
+            switch(sortBy) {
+                case 'date-desc':
+                    filteredNews.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'date-asc':
+                    filteredNews.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'title':
+                    filteredNews.sort((a, b) => a.title.localeCompare(b.title));
+                    break;
+                case 'category':
+                    filteredNews.sort((a, b) => a.category.localeCompare(b.category));
+                    break;
+            }
+            
+            currentPage = 1;
+            loadNews();
+        }
+
+        // Load more news
+        function loadMoreNews() {
+            currentPage++;
+            loadNews();
+        }
+
+        // Open article modal
+        function openArticle(id) {
+            const article = allNews.find(news => news.id === id);
+            if (!article) return;
+
+            document.getElementById('modal-title').textContent = article.title;
+            document.getElementById('modal-content').innerHTML = `
+                <div class="mb-6">
+                    <img src="${article.image}" alt="${article.title}" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <span class="bg-${getCategoryColor(article.category)}-100 text-${getCategoryColor(article.category)}-800 px-3 py-1 rounded-full font-medium mr-3">
+                            ${getCategoryLabel(article.category)}
+                        </span>
+                        <i class="fas fa-calendar mr-2"></i>${formatDate(article.date)}
+                        <span class="mx-2">•</span>
+                        <i class="fas fa-user mr-2"></i>${article.author}
+                    </div>
+                    <h1 class="text-2xl font-bold mb-4">${article.title}</h1>
+                    <div class="prose max-w-none">${article.content}</div>
+                    <div class="mt-6 pt-4 border-t border-gray-200">
+                        <div class="flex flex-wrap gap-2">
+                            ${article.tags.map(tag => `<span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-sm">#${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('article-modal').classList.remove('hidden');
+            document.getElementById('article-modal').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close article modal
+        function closeArticleModal() {
+            document.getElementById('article-modal').classList.add('hidden');
+            document.getElementById('article-modal').classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Share article
+        function shareArticle(platform) {
+            const url = window.location.href;
+            const title = document.getElementById('modal-title').textContent;
+            
+            switch(platform) {
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`);
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`);
+                    break;
+                case 'whatsapp':
+                    window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`);
+                    break;
+                case 'copy':
+                    navigator.clipboard.writeText(url).then(() => {
+                        showNotification('Lien copié dans le presse-papiers !', 'success');
+                    });
+                    break;
+            }
+        }
+
+        // Newsletter subscription
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const email = event.target.querySelector('input[type="email"]').value;
+            
+            // Simulate subscription
+            showNotification('Inscription à la newsletter réussie !', 'success');
+            event.target.reset();
+        }
+
+        // Utility functions
+        function getCategoryLabel(category) {
+            const labels = {
+                'actualites': 'Actualités',
+                'evenements': 'Événements',
+                'reussites': 'Réussites',
+                'pedagogie': 'Pédagogie',
+                'vie-scolaire': 'Vie scolaire',
+                'parents': 'Information parents'
+            };
+            return labels[category] || category;
+        }
+
+        function getCategoryColor(category) {
+            const colors = {
+                'actualites': 'blue',
+                'evenements': 'green',
+                'reussites': 'yellow',
+                'pedagogie': 'purple',
+                'vie-scolaire': 'indigo',
+                'parents': 'pink'
+            };
+            return colors[category] || 'gray';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+
+        function highlightSearchTerm(text) {
+            if (!currentSearchTerm) return text;
+            const regex = new RegExp(`(${currentSearchTerm})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${getNotificationClasses(type)}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${getNotificationIcon(type)} mr-2"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-lg">&times;</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function getNotificationClasses(type) {
+            const classes = {
+                'success': 'bg-green-500 text-white',
+                'error': 'bg-red-500 text-white',
+                'warning': 'bg-yellow-500 text-white',
+                'info': 'bg-blue-500 text-white'
+            };
+            return classes[type] || classes.info;
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                'success': 'fa-check-circle',
+                'error': 'fa-exclamation-circle',
+                'warning': 'fa-exclamation-triangle',
+                'info': 'fa-info-circle'
+            };
+            return icons[type] || icons.info;
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('article-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeArticleModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeArticleModal();
+            }
+        });
+    </script>
+</body>
+</html>

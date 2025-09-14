@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeries Photo - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .hero-gradient { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .photo-item { 
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+        .photo-item:hover { 
+            transform: scale(1.02); 
+            z-index: 10;
+        }
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+        .photo-item:hover .photo-overlay {
+            opacity: 1;
+        }
+        .modal { display: none; }
+        .modal.active { 
+            display: flex; 
+            animation: fadeIn 0.3s ease-out;
+        }
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+        .drag-over { 
+            border: 3px dashed #3b82f6; 
+            background-color: #e3f2fd; 
+        }
+        .album-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .album-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .masonry {
+            column-count: 3;
+            column-gap: 1rem;
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+        .admin-mode .photo-actions, .admin-mode .photo-checkbox {
+            display: block !important;
+        }
+        .photo-actions {
+            display: none;
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            z-index: 20;
+        }
+        .batch-actions {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            display: none;
+            z-index: 30;
+            animation: slideUp 0.3s ease-out;
+        }
+        .batch-actions.active {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .photo-checkbox {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            z-index: 20;
+            display: none;
+        }
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { transform: translateX(-50%) translateY(50px); opacity: 0; }
+            to { transform: translateX(-50%) translateY(0); opacity: 1; }
+        }
+        @media (max-width: 768px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+        @media (max-width: 640px) {
+            .masonry {
+                column-count: 1;
+            }
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Collège le Jour de Divo</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-gray-700 hover:text-blue-600 transition-colors">À propos</a>
+                    <a href="actualites.html" class="text-gray-700 hover:text-blue-600 transition-colors">Actualités</a>
+                    <a href="galeries.html" class="text-blue-600 font-medium">Galeries</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                    <button onclick="toggleAdminMode()" id="admin-toggle" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-cog mr-2"></i>Mode Admin
+                    </button>
+                </div>
+                
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-700 hover:text-blue-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 pb-4">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Accueil</a>
+                    <a href="apropos.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">À propos</a>
+                    <a href="actualites.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Actualités</a>
+                    <a href="galeries.html" class="block px-3 py-2 text-blue-600 font-medium">Galeries</a>
+                    <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+                    <button onclick="toggleAdminMode()" class="block w-full text-left px-3 py-2 bg-gray-600 text-white rounded-lg">Mode Admin</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-gradient text-white pt-20 pb-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">Galeries Photo</h1>
+            <p class="text-xl opacity-90 mb-8 max-w-3xl mx-auto">
+                Découvrez la vie de notre établissement à travers nos albums photos
+            </p>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-lg p-6 shadow-xl">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1 relative">
+                            <input type="text" id="search-input" placeholder="Rechercher dans les galeries..." 
+                                   class="w-full px-4 py-3 pl-10 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        
+                        <select id="category-filter" class="px-4 py-3 text-gray-700 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">Toutes les catégories</option>
+                            <option value="evenements">Événements</option>
+                            <option value="ceremonies">Cérémonies</option>
+                            <option value="sorties">Sorties pédagogiques</option>
+                            <option value="sport">Activités sportives</option>
+                            <option value="culture">Activités culturelles</option>
+                            <option value="autres">Autres</option>
+                        </select>
+                        
+                        <div class="flex bg-gray-100 rounded-lg p-1">
+                            <button onclick="changeView('grid')" id="grid-view" class="flex-1 px-4 py-2 rounded bg-blue-600 text-white">
+                                <i class="fas fa-th mr-2"></i>Grille
+                            </button>
+                            <button onclick="changeView('masonry')" id="masonry-view" class="flex-1 px-4 py-2 rounded text-gray-600">
+                                <i class="fas fa-th-large mr-2"></i>Mosaïque
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="admin-controls" class="hidden bg-yellow-50 border-b border-yellow-200 py-4">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm font-medium text-yellow-800">Mode administrateur activé</span>
+                    <button onclick="openModal('album-modal', {mode: 'create'})" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>Nouvel Album
+                    </button>
+                    <button onclick="openModal('upload-modal')" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-upload mr-2"></i>Ajouter Photos
+                    </button>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="toggleBatchSelect()" id="batch-select-btn" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors">
+                        <i class="fas fa-check-square mr-2"></i>Sélection multiple
+                    </button>
+                    <button onclick="toggleAdminMode()" class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-times mr-2"></i>Quitter
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 py-12">
+        <div id="albums-view" class="mb-12">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">Albums Photos</h2>
+                <div class="text-sm text-gray-600">
+                    <span id="albums-count">0</span> album(s) • <span id="photos-count">0</span> photo(s)
+                </div>
+            </div>
+            
+            <div id="albums-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="no-results-albums" class="hidden text-center col-span-full py-16 text-gray-500">
+                    <p class="text-lg">Aucun album trouvé. 😔</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="photos-view" class="hidden">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center">
+                    <button onclick="backToAlbums()" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors mr-4">
+                        <i class="fas fa-arrow-left mr-2"></i>Retour aux albums
+                    </button>
+                    <div>
+                        <h2 id="current-album-title" class="text-3xl font-bold text-gray-900"></h2>
+                        <p id="current-album-description" class="text-gray-600"></p>
+                    </div>
+                </div>
+                <div class="text-sm text-gray-600">
+                    <span id="current-photos-count">0</span> photo(s)
+                </div>
+            </div>
+            
+            <div id="photos-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div id="no-results-photos" class="hidden text-center col-span-full py-16 text-gray-500">
+                    <p class="text-lg">Cet album ne contient aucune photo. 📸</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="batch-actions" class="batch-actions">
+        <span id="selected-count" class="text-sm text-gray-600">0 photo(s) sélectionnée(s)</span>
+        <button onclick="batchMove()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            <i class="fas fa-folder-open mr-2"></i>Déplacer
+        </button>
+        <button onclick="batchDelete()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+            <i class="fas fa-trash mr-2"></i>Supprimer
+        </button>
+        <button onclick="cancelBatchSelect()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+            <i class="fas fa-times mr-2"></i>Annuler
+        </button>
+    </div>
+
+    <div id="album-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 id="album-modal-title" class="text-xl font-semibold">Nouvel Album</h3>
+                    <button onclick="closeModal('album-modal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="album-form" class="p-6 space-y-6">
+                <input type="hidden" id="album-id">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Titre de l'album *</label>
+                    <input type="text" id="album-title" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="album-description" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                    <select id="album-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="evenements">Événements</option>
+                        <option value="ceremonies">Cérémonies</option>
+                        <option value="sorties">Sorties pédagogiques</option>
+                        <option value="sport">Activités sportives</option>
+                        <option value="culture">Activités culturelles</option>
+                        <option value="autres">Autres</option>
+                    </select>
+                </div>
+
+                <div class="flex items-center">
+                    <input type="checkbox" id="album-public" class="mr-2">
+                    <label for="album-public" class="text-sm text-gray-700">Album public (visible sur le site)</label>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('album-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                        Annuler
+                    </button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-save mr-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="upload-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-semibold">Ajouter des Photos</h3>
+                    <button onclick="closeModal('upload-modal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Sélectionner l'album</label>
+                    <select id="upload-album" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </select>
+                </div>
+
+                <div id="upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-400 transition-colors cursor-pointer">
+                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-600 mb-4">Glissez-déposez vos photos ici ou cliquez pour sélectionner</p>
+                    <input type="file" id="photo-files" multiple accept="image/*" class="hidden">
+                    <button type="button" onclick="document.getElementById('photo-files').click()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-images mr-2"></i>Sélectionner des photos
+                    </button>
+                </div>
+
+                <div id="upload-progress" class="hidden">
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-medium">Téléchargement en cours...</span>
+                            <span id="upload-percentage">0%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div id="upload-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <div class="text-sm text-gray-600 mt-2">
+                            <span id="upload-current">0</span> / <span id="upload-total">0</span> photos
+                        </div>
+                    </div>
+                </div>
+
+                <div id="upload-preview" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('upload-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                        Annuler
+                    </button>
+                    <button id="upload-btn" onclick="uploadPhotos()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700" disabled>
+                        <i class="fas fa-upload mr-2"></i>Télécharger
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="photo-edit-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-xl font-semibold">Modifier la Photo</h3>
+                    <button onclick="closeModal('photo-edit-modal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="photo-edit-form" class="p-6 space-y-6">
+                <input type="hidden" id="photo-edit-id">
+                
+                <div class="text-center mb-4">
+                    <img id="photo-edit-preview" src="" alt="" class="max-w-full h-48 object-cover rounded-lg mx-auto">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Titre de la photo</label>
+                    <input type="text" id="photo-edit-title" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="photo-edit-description" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Album</label>
+                    <select id="photo-edit-album" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </select>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('photo-edit-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                        Annuler
+                    </button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-save mr-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="lightbox-modal" class="modal fixed inset-0 bg-black bg-opacity-95 items-center justify-center z-50">
+        <div class="relative max-w-full max-h-full">
+            <button onclick="closeModal('lightbox-modal')" class="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="relative">
+                    <img id="lightbox-image" src="" alt="" class="lightbox-img rounded-lg">
+                    
+                    <button id="lightbox-prev" onclick="navigateLightbox(-1)" class="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="lightbox-next" onclick="navigateLightbox(1)" class="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-3 rounded-full hover:bg-opacity-75">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    
+                    <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 text-white p-4 rounded-b-lg">
+                        <h3 id="lightbox-title" class="text-lg font-semibold mb-2"></h3>
+                        <p id="lightbox-description" class="text-sm opacity-90"></p>
+                        <div class="flex justify-between items-center mt-2 text-xs opacity-75">
+                            <span id="lightbox-counter"></span>
+                            <span id="lightbox-date"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="delete-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                    <h3 class="text-lg font-semibold mb-2">Confirmer la suppression</h3>
+                    <p id="delete-message" class="text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+                    
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="closeModal('delete-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                            Annuler
+                        </button>
+                        <button id="confirm-delete-btn" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let albums = JSON.parse(localStorage.getItem('photo_albums')) || [];
+        let photos = JSON.parse(localStorage.getItem('photos')) || [];
+        let currentView = 'grid';
+        let currentAlbumId = null;
+        let adminMode = false;
+        let batchSelectMode = false;
+        let selectedPhotos = new Set();
+        let currentLightboxIndex = 0;
+        let lightboxPhotos = [];
+        let uploadQueue = [];
+        let deleteCallback = null;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            setupEventListeners();
+        });
+
+        function initializePage() {
+            // Load sample data if empty
+            if (albums.length === 0) {
+                albums = [
+                    {
+                        id: 1,
+                        title: "Rentrée scolaire 2025",
+                        description: "Photos de la cérémonie de rentrée scolaire",
+                        category: "evenements",
+                        public: true,
+                        createdAt: new Date().toISOString(),
+                        cover: "https://via.placeholder.com/400x300/3b82f6/white?text=Rentree+2025"
+                    },
+                    {
+                        id: 2,
+                        title: "Concours de mathématiques",
+                        description: "Competition inter-établissements",
+                        category: "evenements",
+                        public: true,
+                        createdAt: new Date().toISOString(),
+                        cover: "https://via.placeholder.com/400x300/10b981/white?text=Concours+Maths"
+                    },
+                    {
+                        id: 3,
+                        title: "Laboratoire de sciences",
+                        description: "Inauguration du nouveau laboratoire",
+                        category: "pedagogie",
+                        public: true,
+                        createdAt: new Date().toISOString(),
+                        cover: "https://via.placeholder.com/400x300/8b5cf6/white?text=Laboratoire"
+                    }
+                ];
+            }
+
+            if (photos.length === 0) {
+                photos = [
+                    {
+                        id: 1,
+                        albumId: 1,
+                        title: "Cérémonie d'ouverture",
+                        description: "Discours du directeur lors de la rentrée",
+                        src: "https://via.placeholder.com/600x400/3b82f6/white?text=Ceremonie+1",
+                        uploadedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 2,
+                        albumId: 1,
+                        title: "Nouveaux élèves",
+                        description: "Accueil des nouveaux élèves",
+                        src: "https://via.placeholder.com/600x400/10b981/white?text=Nouveaux+Eleves",
+                        uploadedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 3,
+                        albumId: 2,
+                        title: "Compétition",
+                        description: "Les élèves en pleine concentration",
+                        src: "https://via.placeholder.com/600x400/f59e0b/white?text=Competition",
+                        uploadedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 4,
+                        albumId: 2,
+                        title: "Remise des prix",
+                        description: "Les gagnants du concours",
+                        src: "https://via.placeholder.com/600x400/ef4444/white?text=Remise+Prix",
+                        uploadedAt: new Date().toISOString()
+                    },
+                    {
+                        id: 5,
+                        albumId: 3,
+                        title: "Expérience scientifique",
+                        description: "Les élèves en action",
+                        src: "https://via.placeholder.com/600x400/22c55e/white?text=Experience+Sci",
+                        uploadedAt: new Date().toISOString()
+                    }
+                ];
+            }
+
+            saveData();
+            renderAlbums();
+            updateCounts();
+        }
+
+        function setupEventListeners() {
+            // Search functionality
+            document.getElementById('search-input').addEventListener('input', filterContent);
+            document.getElementById('category-filter').addEventListener('change', filterContent);
+
+            // File upload handling
+            document.getElementById('photo-files').addEventListener('change', handleFileSelect);
+            
+            // Drag and drop
+            const uploadArea = document.getElementById('upload-area');
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('dragleave', handleDragLeave);
+            uploadArea.addEventListener('drop', handleDrop);
+
+            // Form submissions
+            document.getElementById('album-form').addEventListener('submit', handleAlbumSubmit);
+            document.getElementById('photo-edit-form').addEventListener('submit', handlePhotoEdit);
+
+            // Keyboard shortcuts for lightbox
+            document.addEventListener('keydown', handleKeyDown);
+        }
+
+        // Data management
+        function saveData() {
+            localStorage.setItem('photo_albums', JSON.stringify(albums));
+            localStorage.setItem('photos', JSON.stringify(photos));
+        }
+
+        function getNextId(array) {
+            return array.length > 0 ? Math.max(...array.map(item => item.id)) + 1 : 1;
+        }
+
+        // Album functions
+        function renderAlbums(filteredAlbums = albums) {
+            const albumsGrid = document.getElementById('albums-grid');
+            albumsGrid.innerHTML = '';
+            
+            const filteredAndSortedAlbums = filteredAlbums.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            if (filteredAndSortedAlbums.length === 0) {
+                document.getElementById('no-results-albums').classList.remove('hidden');
+            } else {
+                document.getElementById('no-results-albums').classList.add('hidden');
+                filteredAndSortedAlbums.forEach(album => {
+                    const albumPhotos = photos.filter(p => p.albumId === album.id);
+                    const coverSrc = album.cover || (albumPhotos.length > 0 ? albumPhotos[0].src : 'https://via.placeholder.com/400x300/cccccc/888888?text=Album+vide');
+                    
+                    const albumCard = document.createElement('div');
+                    albumCard.className = 'album-card relative rounded-lg overflow-hidden shadow-lg hover:shadow-2xl';
+                    albumCard.dataset.albumId = album.id;
+                    albumCard.innerHTML = `
+                        <img src="${coverSrc}" alt="Couverture de l'album" class="w-full h-48 object-cover">
+                        <div class="p-4 bg-white">
+                            <h3 class="font-semibold text-lg text-gray-800 truncate">${album.title}</h3>
+                            <p class="text-sm text-gray-500 truncate">${album.description || ''}</p>
+                            <p class="text-xs text-gray-400 mt-2">${albumPhotos.length} photo(s)</p>
+                        </div>
+                        <div class="photo-actions flex space-x-2 absolute top-2 right-2 hidden">
+                            <button onclick="event.stopPropagation(); editAlbum(${album.id})" class="bg-white p-2 rounded-full text-blue-600 hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteAlbum(${album.id})" class="bg-white p-2 rounded-full text-red-600 hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    albumCard.onclick = () => viewAlbum(album.id);
+                    albumsGrid.appendChild(albumCard);
+                });
+            }
+        }
+
+        function viewAlbum(id) {
+            currentAlbumId = id;
+            const album = albums.find(a => a.id === id);
+            if (!album) return;
+
+            document.getElementById('albums-view').classList.add('hidden');
+            document.getElementById('photos-view').classList.remove('hidden');
+            document.getElementById('current-album-title').textContent = album.title;
+            document.getElementById('current-album-description').textContent = album.description;
+
+            renderPhotos(photos.filter(p => p.albumId === id));
+        }
+
+        function backToAlbums() {
+            currentAlbumId = null;
+            document.getElementById('photos-view').classList.add('hidden');
+            document.getElementById('albums-view').classList.remove('hidden');
+            renderAlbums();
+            cancelBatchSelect();
+            filterContent();
+        }
+
+        // Photo functions
+        function renderPhotos(filteredPhotos) {
+            const photosContainer = document.getElementById('photos-container');
+            photosContainer.innerHTML = '';
+            
+            // Adjust container class for masonry view
+            photosContainer.className = currentView === 'masonry' 
+                ? 'masonry' 
+                : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4';
+
+            if (filteredPhotos.length === 0) {
+                document.getElementById('no-results-photos').classList.remove('hidden');
+            } else {
+                document.getElementById('no-results-photos').classList.add('hidden');
+                
+                const sortedPhotos = filteredPhotos.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+                lightboxPhotos = sortedPhotos;
+
+                sortedPhotos.forEach((photo, index) => {
+                    const photoItem = document.createElement('div');
+                    photoItem.className = `photo-item ${currentView === 'masonry' ? 'masonry-item' : ''} rounded-lg shadow-md`;
+                    photoItem.dataset.photoId = photo.id;
+
+                    const isSelected = selectedPhotos.has(photo.id);
+                    photoItem.innerHTML = `
+                        <img src="${photo.src}" alt="${photo.title || 'Photo'}" class="w-full h-auto rounded-lg">
+                        <div class="photo-overlay text-white">
+                            <div>
+                                <h4 class="font-bold">${photo.title || 'Photo'}</h4>
+                                <p class="text-sm">${photo.description || ''}</p>
+                            </div>
+                        </div>
+                        <div class="photo-checkbox hidden absolute top-2 left-2 z-20">
+                            <input type="checkbox" data-photo-id="${photo.id}" class="h-5 w-5 rounded text-blue-600 focus:ring-blue-500" ${isSelected ? 'checked' : ''}>
+                        </div>
+                        <div class="photo-actions flex space-x-2 absolute top-2 right-2 hidden">
+                            <button onclick="event.stopPropagation(); editPhoto(${photo.id})" class="bg-white p-2 rounded-full text-blue-600 hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="event.stopPropagation(); deletePhoto(${photo.id})" class="bg-white p-2 rounded-full text-red-600 hover:bg-gray-200 transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    photoItem.onclick = (e) => {
+                        if (batchSelectMode) {
+                            togglePhotoSelection(photo.id, e.currentTarget.querySelector('input[type="checkbox"]'));
+                        } else {
+                            openLightbox(index);
+                        }
+                    };
+                    photosContainer.appendChild(photoItem);
+                });
+            }
+            updateCounts();
+            if (adminMode) {
+                document.body.classList.add('admin-mode');
+            }
+        }
+
+        // Admin mode & Batch actions
+        function toggleAdminMode() {
+            adminMode = !adminMode;
+            const adminControls = document.getElementById('admin-controls');
+            const adminToggle = document.getElementById('admin-toggle');
+            const body = document.body;
+
+            if (adminMode) {
+                adminControls.classList.remove('hidden');
+                adminToggle.innerHTML = '<i class="fas fa-times mr-2"></i>Quitter Admin';
+                adminToggle.className = 'bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors';
+                body.classList.add('admin-mode');
+            } else {
+                adminControls.classList.add('hidden');
+                adminToggle.innerHTML = '<i class="fas fa-cog mr-2"></i>Mode Admin';
+                adminToggle.className = 'bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors';
+                body.classList.remove('admin-mode');
+                cancelBatchSelect();
+            }
+        }
+
+        function toggleBatchSelect() {
+            batchSelectMode = !batchSelectMode;
+            const batchActions = document.getElementById('batch-actions');
+            const batchSelectBtn = document.getElementById('batch-select-btn');
+
+            if (batchSelectMode) {
+                batchActions.classList.add('active');
+                batchSelectBtn.innerHTML = '<i class="fas fa-check-square mr-2"></i>Annuler la sélection';
+                batchSelectBtn.className = 'bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors';
+            } else {
+                batchActions.classList.remove('active');
+                batchSelectBtn.innerHTML = '<i class="fas fa-check-square mr-2"></i>Sélection multiple';
+                batchSelectBtn.className = 'bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors';
+            }
+
+            const checkboxes = document.querySelectorAll('.photo-checkbox input');
+            checkboxes.forEach(checkbox => checkbox.checked = false);
+            selectedPhotos.clear();
+            updateSelectedCount();
+        }
+
+        function togglePhotoSelection(photoId, checkbox) {
+            if (checkbox.checked) {
+                selectedPhotos.add(photoId);
+            } else {
+                selectedPhotos.delete(photoId);
+            }
+            updateSelectedCount();
+        }
+        
+        function updateSelectedCount() {
+            document.getElementById('selected-count').textContent = `${selectedPhotos.size} photo(s) sélectionnée(s)`;
+            const batchActions = document.getElementById('batch-actions');
+            if (selectedPhotos.size > 0 && batchSelectMode) {
+                batchActions.classList.add('active');
+            } else {
+                batchActions.classList.remove('active');
+            }
+        }
+
+        function cancelBatchSelect() {
+            if (batchSelectMode) {
+                toggleBatchSelect();
+            }
+        }
+        
+        function batchDelete() {
+            if (selectedPhotos.size === 0) {
+                alert("Veuillez sélectionner au moins une photo à supprimer.");
+                return;
+            }
+            deleteCallback = () => {
+                photos = photos.filter(p => !selectedPhotos.has(p.id));
+                saveData();
+                renderPhotos(photos.filter(p => p.albumId === currentAlbumId));
+                cancelBatchSelect();
+                updateCounts();
+                closeModal('delete-modal');
+            };
+            openModal('delete-modal', {
+                message: `Êtes-vous sûr de vouloir supprimer les ${selectedPhotos.size} photos sélectionnées ?`
+            });
+        }
+        
+        function batchMove() {
+            if (selectedPhotos.size === 0) {
+                alert("Veuillez sélectionner au moins une photo à déplacer.");
+                return;
+            }
+            // Open a modal to select the destination album
+            alert("Fonctionnalité de déplacement en lot non encore implémentée.");
+        }
+
+        // Modals
+        function openModal(modalId, options = {}) {
+            const modal = document.getElementById(modalId);
+            if (modalId === 'album-modal') {
+                document.getElementById('album-form').reset();
+                if (options.mode === 'create') {
+                    document.getElementById('album-modal-title').textContent = "Nouvel Album";
+                    document.getElementById('album-id').value = '';
+                } else if (options.mode === 'edit') {
+                    document.getElementById('album-modal-title').textContent = "Modifier l'Album";
+                    const album = albums.find(a => a.id === options.albumId);
+                    if (album) {
+                        document.getElementById('album-id').value = album.id;
+                        document.getElementById('album-title').value = album.title;
+                        document.getElementById('album-description').value = album.description;
+                        document.getElementById('album-category').value = album.category;
+                        document.getElementById('album-public').checked = album.public;
+                    }
+                }
+            } else if (modalId === 'upload-modal') {
+                populateAlbumSelect('upload-album');
+                document.getElementById('upload-preview').innerHTML = '';
+                document.getElementById('upload-btn').disabled = true;
+                document.getElementById('upload-area').classList.remove('hidden');
+                document.getElementById('upload-progress').classList.add('hidden');
+                uploadQueue = [];
+            } else if (modalId === 'photo-edit-modal' && options.photo) {
+                populateAlbumSelect('photo-edit-album');
+                document.getElementById('photo-edit-id').value = options.photo.id;
+                document.getElementById('photo-edit-preview').src = options.photo.src;
+                document.getElementById('photo-edit-title').value = options.photo.title || '';
+                document.getElementById('photo-edit-description').value = options.photo.description || '';
+                document.getElementById('photo-edit-album').value = options.photo.albumId;
+            } else if (modalId === 'delete-modal') {
+                document.getElementById('delete-message').textContent = options.message || "Êtes-vous sûr de vouloir supprimer cet élément ?";
+                document.getElementById('confirm-delete-btn').onclick = deleteCallback;
+            }
+            modal.classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            deleteCallback = null;
+        }
+
+        // Form handlers
+        function handleAlbumSubmit(event) {
+            event.preventDefault();
+            const id = document.getElementById('album-id').value;
+            const title = document.getElementById('album-title').value;
+            const description = document.getElementById('album-description').value;
+            const category = document.getElementById('album-category').value;
+            const isPublic = document.getElementById('album-public').checked;
+
+            if (id) {
+                // Update existing album
+                const album = albums.find(a => a.id == id);
+                if (album) {
+                    album.title = title;
+                    album.description = description;
+                    album.category = category;
+                    album.public = isPublic;
+                }
+            } else {
+                // Create new album
+                const newAlbum = {
+                    id: getNextId(albums),
+                    title: title,
+                    description: description,
+                    category: category,
+                    public: isPublic,
+                    createdAt: new Date().toISOString(),
+                    cover: 'https://via.placeholder.com/400x300/cccccc/888888?text=Album+vide'
+                };
+                albums.push(newAlbum);
+            }
+            saveData();
+            renderAlbums();
+            updateCounts();
+            closeModal('album-modal');
+        }
+
+        function handlePhotoEdit(event) {
+            event.preventDefault();
+            const id = parseInt(document.getElementById('photo-edit-id').value);
+            const title = document.getElementById('photo-edit-title').value;
+            const description = document.getElementById('photo-edit-description').value;
+            const albumId = parseInt(document.getElementById('photo-edit-album').value);
+
+            const photo = photos.find(p => p.id === id);
+            if (photo) {
+                photo.title = title;
+                photo.description = description;
+                photo.albumId = albumId;
+            }
+            saveData();
+            renderPhotos(photos.filter(p => p.albumId === currentAlbumId));
+            updateCounts();
+            closeModal('photo-edit-modal');
+        }
+
+        // Upload functions
+        function handleFileSelect(event) {
+            uploadQueue = [...event.target.files];
+            showUploadPreview();
+        }
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            event.dataTransfer.dropEffect = 'copy';
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.classList.remove('drag-over');
+            const files = event.dataTransfer.files;
+            uploadQueue = [...files].filter(file => file.type.startsWith('image/'));
+            if (uploadQueue.length > 0) {
+                document.getElementById('photo-files').files = new DataTransfer().files; // Clear input
+                showUploadPreview();
+            }
+        }
+
+        function showUploadPreview() {
+            const previewContainer = document.getElementById('upload-preview');
+            previewContainer.innerHTML = '';
+            uploadQueue.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'w-full h-auto object-cover rounded-lg';
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+            document.getElementById('upload-btn').disabled = uploadQueue.length === 0;
+        }
+
+        function uploadPhotos() {
+            const albumId = parseInt(document.getElementById('upload-album').value);
+            if (!albumId) {
+                alert("Veuillez sélectionner un album.");
+                return;
+            }
+
+            document.getElementById('upload-area').classList.add('hidden');
+            document.getElementById('upload-preview').classList.add('hidden');
+            document.getElementById('upload-progress').classList.remove('hidden');
+            document.getElementById('upload-total').textContent = uploadQueue.length;
+
+            let uploadedCount = 0;
+            const totalCount = uploadQueue.length;
+
+            uploadQueue.forEach((file, index) => {
+                // Simulate file upload with a timeout
+                setTimeout(() => {
+                    const newPhoto = {
+                        id: getNextId(photos),
+                        albumId: albumId,
+                        title: file.name.split('.')[0],
+                        description: '',
+                        src: `https://via.placeholder.com/600x400/94a3b8/white?text=${file.name.split('.')[0]}`,
+                        uploadedAt: new Date().toISOString()
+                    };
+                    photos.push(newPhoto);
+                    uploadedCount++;
+                    updateUploadProgress(uploadedCount, totalCount);
+
+                    if (uploadedCount === totalCount) {
+                        saveData();
+                        alert("Téléchargement terminé !");
+                        closeModal('upload-modal');
+                        renderAlbums();
+                        updateCounts();
+                    }
+                }, 500 * (index + 1));
+            });
+        }
+
+        function updateUploadProgress(current, total) {
+            const percentage = (current / total) * 100;
+            document.getElementById('upload-percentage').textContent = `${Math.round(percentage)}%`;
+            document.getElementById('upload-bar').style.width = `${percentage}%`;
+            document.getElementById('upload-current').textContent = current;
+        }
+
+        // Actions
+        function editAlbum(id) {
+            const album = albums.find(a => a.id === id);
+            if (album) {
+                openModal('album-modal', {mode: 'edit', albumId: id});
+            }
+        }
+
+        function deleteAlbum(id) {
+            deleteCallback = () => {
+                albums = albums.filter(a => a.id !== id);
+                photos = photos.filter(p => p.albumId !== id);
+                saveData();
+                renderAlbums();
+                updateCounts();
+                closeModal('delete-modal');
+            };
+            openModal('delete-modal', {
+                message: "Êtes-vous sûr de vouloir supprimer cet album ? Toutes les photos qu'il contient seront également supprimées."
+            });
+        }
+
+        function editPhoto(id) {
+            const photo = photos.find(p => p.id === id);
+            if (photo) {
+                openModal('photo-edit-modal', {photo: photo});
+            }
+        }
+
+        function deletePhoto(id) {
+            deleteCallback = () => {
+                photos = photos.filter(p => p.id !== id);
+                saveData();
+                renderPhotos(photos.filter(p => p.albumId === currentAlbumId));
+                updateCounts();
+                closeModal('delete-modal');
+            };
+            openModal('delete-modal', {
+                message: "Êtes-vous sûr de vouloir supprimer cette photo ?"
+            });
+        }
+
+        // Filters and search
+        function filterContent() {
+            const searchText = document.getElementById('search-input').value.toLowerCase();
+            const categoryFilter = document.getElementById('category-filter').value;
+
+            if (currentAlbumId) {
+                // Filter photos within the current album
+                const filteredPhotos = photos.filter(p => p.albumId === currentAlbumId && 
+                    (p.title.toLowerCase().includes(searchText) || p.description.toLowerCase().includes(searchText)));
+                renderPhotos(filteredPhotos);
+            } else {
+                // Filter albums
+                const filteredAlbums = albums.filter(album => 
+                    (album.title.toLowerCase().includes(searchText) || 
+                    album.description.toLowerCase().includes(searchText)) &&
+                    (categoryFilter === '' || album.category === categoryFilter));
+                renderAlbums(filteredAlbums);
+            }
+        }
+        
+        // Helper functions
+        function updateCounts() {
+            document.getElementById('albums-count').textContent = albums.length;
+            document.getElementById('photos-count').textContent = photos.length;
+            if (currentAlbumId) {
+                document.getElementById('current-photos-count').textContent = photos.filter(p => p.albumId === currentAlbumId).length;
+            }
+        }
+
+        function populateAlbumSelect(selectId) {
+            const select = document.getElementById(selectId);
+            select.innerHTML = '';
+            albums.forEach(album => {
+                const option = document.createElement('option');
+                option.value = album.id;
+                option.textContent = album.title;
+                select.appendChild(option);
+            });
+            if (currentAlbumId) {
+                select.value = currentAlbumId;
+            }
+        }
+
+        // Lightbox
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            const photo = lightboxPhotos[index];
+            if (photo) {
+                document.getElementById('lightbox-image').src = photo.src;
+                document.getElementById('lightbox-title').textContent = photo.title || 'Photo';
+                document.getElementById('lightbox-description').textContent = photo.description || '';
+                updateLightboxCounter();
+                updateLightboxDate(photo.uploadedAt);
+                document.getElementById('lightbox-modal').classList.add('active');
+            }
+        }
+        
+        function navigateLightbox(direction) {
+            currentLightboxIndex += direction;
+            if (currentLightboxIndex < 0) {
+                currentLightboxIndex = lightboxPhotos.length - 1;
+            } else if (currentLightboxIndex >= lightboxPhotos.length) {
+                currentLightboxIndex = 0;
+            }
+            openLightbox(currentLightboxIndex);
+        }
+
+        function updateLightboxCounter() {
+            document.getElementById('lightbox-counter').textContent = `${currentLightboxIndex + 1} / ${lightboxPhotos.length}`;
+        }
+
+        function updateLightboxDate(dateString) {
+            const date = new Date(dateString);
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('lightbox-date').textContent = new Intl.DateTimeFormat('fr-FR', options).format(date);
+        }
+
+        function handleKeyDown(event) {
+            if (document.getElementById('lightbox-modal').classList.contains('active')) {
+                if (event.key === 'ArrowLeft') {
+                    navigateLightbox(-1);
+                } else if (event.key === 'ArrowRight') {
+                    navigateLightbox(1);
+                } else if (event.key === 'Escape') {
+                    closeModal('lightbox-modal');
+                }
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+    </script>
+</body>
+</html>
