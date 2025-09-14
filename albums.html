@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Albums - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .photo-item { transition: transform 0.2s; }
+        .photo-item:hover { transform: scale(1.05); }
+        .modal { display: none; }
+        .modal.active { display: flex; }
+        .drag-over { border: 2px dashed #3b82f6; background-color: #dbeafe; }
+        .status-published { background-color: #10b981; }
+        .status-draft { background-color: #f59e0b; }
+        .status-archived { background-color: #6b7280; }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Gestion des Contenus</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-600">Connecté en tant qu'administrateur</span>
+                    <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Déconnexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Gestion des Contenus</h1>
+                <p class="text-gray-600">Gérez vos albums photos, annonces et articles</p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="border-b border-gray-200 mb-6">
+                <nav class="-mb-px flex space-x-8">
+                    <button onclick="switchTab('albums')" class="tab-btn border-b-2 border-blue-600 text-blue-600 py-2 px-1 font-medium">
+                        <i class="fas fa-images mr-2"></i>Albums Photos
+                    </button>
+                    <button onclick="switchTab('announcements')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-2 px-1 font-medium">
+                        <i class="fas fa-bullhorn mr-2"></i>Annonces
+                    </button>
+                    <button onclick="switchTab('articles')" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-2 px-1 font-medium">
+                        <i class="fas fa-newspaper mr-2"></i>Articles
+                    </button>
+                </nav>
+            </div>
+
+            <!-- Albums Tab -->
+            <div id="albums-tab" class="tab-content active">
+                <div class="bg-white rounded-xl shadow-lg">
+                    <!-- Albums Header -->
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold text-gray-900">Albums Photos</h2>
+                            <button onclick="openModal('album-modal')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-plus mr-2"></i>Nouveau Album
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Albums Grid -->
+                    <div class="p-6">
+                        <div id="albums-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Albums will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Announcements Tab -->
+            <div id="announcements-tab" class="tab-content">
+                <div class="bg-white rounded-xl shadow-lg">
+                    <!-- Announcements Header -->
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold text-gray-900">Annonces</h2>
+                            <button onclick="openModal('announcement-modal')" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                <i class="fas fa-plus mr-2"></i>Nouvelle Annonce
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Announcements List -->
+                    <div class="p-6">
+                        <div id="announcements-list" class="space-y-4">
+                            <!-- Announcements will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Articles Tab -->
+            <div id="articles-tab" class="tab-content">
+                <div class="bg-white rounded-xl shadow-lg">
+                    <!-- Articles Header -->
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-semibold text-gray-900">Articles</h2>
+                            <button onclick="openModal('article-modal')" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                                <i class="fas fa-plus mr-2"></i>Nouvel Article
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Articles List -->
+                    <div class="p-6">
+                        <div id="articles-list" class="space-y-4">
+                            <!-- Articles will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Album Modal -->
+    <div id="album-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 id="album-modal-title" class="text-xl font-semibold">Nouvel Album</h3>
+                    <button onclick="closeModal('album-modal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="album-form" class="p-6 space-y-6">
+                <input type="hidden" id="album-id">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Titre de l'album *</label>
+                    <input type="text" id="album-title" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="album-description" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                    <select id="album-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="evenements">Événements</option>
+                        <option value="ceremonies">Cérémonies</option>
+                        <option value="sorties">Sorties pédagogiques</option>
+                        <option value="sport">Activités sportives</option>
+                        <option value="culture">Activités culturelles</option>
+                        <option value="autres">Autres</option>
+                    </select>
+                </div>
+
+                <!-- Photo Upload Area -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Photos</label>
+                    <div id="photo-upload-area" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
+                        <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-600 mb-2">Glissez-déposez vos photos ici ou cliquez pour sélectionner</p>
+                        <input type="file" id="photo-files" multiple accept="image/*" class="hidden">
+                        <button type="button" onclick="document.getElementById('photo-files').click()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            Sélectionner des photos
+                        </button>
+                    </div>
+                    
+                    <!-- Photos Preview -->
+                    <div id="photos-preview" class="grid grid-cols-3 gap-4 mt-4">
+                        <!-- Photo previews will appear here -->
+                    </div>
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('album-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                        Annuler
+                    </button>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                        <i class="fas fa-save mr-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Announcement Modal -->
+    <div id="announcement-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 id="announcement-modal-title" class="text-xl font-semibold">Nouvelle Annonce</h3>
+                    <button onclick="closeModal('announcement-modal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="announcement-form" class="p-6 space-y-6">
+                <input type="hidden" id="announcement-id">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Titre de l'annonce *</label>
+                    <input type="text" id="announcement-title" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contenu *</label>
+                    <textarea id="announcement-content" required rows="6" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Priorité</label>
+                        <select id="announcement-priority" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="normale">Normale</option>
+                            <option value="importante">Importante</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                        <select id="announcement-status" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                            <option value="published">Publié</option>
+                            <option value="draft">Brouillon</option>
+                            <option value="archived">Archivé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Date d'expiration (optionnel)</label>
+                    <input type="date" id="announcement-expiry" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('announcement-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                        Annuler
+                    </button>
+                    <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                        <i class="fas fa-save mr-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Article Modal -->
+    <div id="article-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex justify-between items-center">
+                    <h3 id="article-modal-title" class="text-xl font-semibold">Nouvel Article</h3>
+                    <button onclick="closeModal('article-modal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <form id="article-form" class="p-6 space-y-6">
+                <input type="hidden" id="article-id">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Titre de l'article *</label>
+                    <input type="text" id="article-title" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Résumé</label>
+                    <textarea id="article-summary" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Bref résumé de l'article..."></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Contenu *</label>
+                    <textarea id="article-content" required rows="10" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                        <select id="article-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="actualites">Actualités</option>
+                            <option value="pedagogie">Pédagogie</option>
+                            <option value="vie-scolaire">Vie scolaire</option>
+                            <option value="orientation">Orientation</option>
+                            <option value="parents">Information parents</option>
+                            <option value="autres">Autres</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                        <select id="article-status" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <option value="published">Publié</option>
+                            <option value="draft">Brouillon</option>
+                            <option value="archived">Archivé</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Image de couverture</label>
+                    <input type="file" id="article-image" accept="image/*" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Mots-clés (séparés par des virgules)</label>
+                    <input type="text" id="article-tags" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="éducation, collège, actualités...">
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('article-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                        Annuler
+                    </button>
+                    <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700">
+                        <i class="fas fa-save mr-2"></i>Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Photo Viewer Modal -->
+    <div id="photo-viewer-modal" class="modal fixed inset-0 bg-black bg-opacity-90 items-center justify-center z-50">
+        <div class="max-w-4xl max-h-[90vh] relative">
+            <button onclick="closeModal('photo-viewer-modal')" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="photo-viewer-image" src="" alt="" class="max-w-full max-h-full object-contain">
+            <div class="absolute bottom-4 left-4 text-white">
+                <h3 id="photo-viewer-title" class="text-lg font-semibold"></h3>
+                <p id="photo-viewer-description" class="text-sm opacity-80"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="modal fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="text-center">
+                    <i class="fas fa-exclamation-triangle text-4xl text-red-500 mb-4"></i>
+                    <h3 class="text-lg font-semibold mb-2">Confirmer la suppression</h3>
+                    <p id="delete-message" class="text-gray-600 mb-6">Êtes-vous sûr de vouloir supprimer cet élément ?</p>
+                    
+                    <div class="flex justify-center space-x-4">
+                        <button onclick="closeModal('delete-modal')" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-400">
+                            Annuler
+                        </button>
+                        <button id="confirm-delete-btn" class="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700">
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data storage (in a real app, this would be connected to a backend)
+        let albums = JSON.parse(localStorage.getItem('albums')) || [];
+        let announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+        let articles = JSON.parse(localStorage.getItem('articles')) || [];
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            loadData();
+            setupEventListeners();
+        });
+
+        function initializePage() {
+            // Load sample data if empty
+            if (albums.length === 0) {
+                albums = [
+                    {
+                        id: 1,
+                        title: "Rentrée scolaire 2025",
+                        description: "Photos de la cérémonie de rentrée",
+                        category: "evenements",
+                        photos: [
+                            { id: 1, src: "https://via.placeholder.com/300x200/3b82f6/white?text=Photo+1", title: "Cérémonie d'ouverture" },
+                            { id: 2, src: "https://via.placeholder.com/300x200/10b981/white?text=Photo+2", title: "Discours du directeur" },
+                            { id: 3, src: "https://via.placeholder.com/300x200/f59e0b/white?text=Photo+3", title: "Nouveaux élèves" }
+                        ],
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+            }
+
+            if (announcements.length === 0) {
+                announcements = [
+                    {
+                        id: 1,
+                        title: "Réunion parents-professeurs",
+                        content: "Une réunion parents-professeurs aura lieu le vendredi 20 septembre à 15h dans la salle polyvalente.",
+                        priority: "importante",
+                        status: "published",
+                        expiry: "2025-09-25",
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+            }
+
+            if (articles.length === 0) {
+                articles = [
+                    {
+                        id: 1,
+                        title: "Excellence académique : nos élèves brillent aux examens",
+                        summary: "Cette année encore, nos élèves ont obtenu d'excellents résultats aux examens nationaux.",
+                        content: "Nous sommes fiers d'annoncer que nos élèves ont obtenu un taux de réussite de 95% au BEPC cette année...",
+                        category: "actualites",
+                        status: "published",
+                        image: "https://via.placeholder.com/400x200/3b82f6/white?text=Article+Image",
+                        tags: "éducation, examens, réussite",
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+            }
+
+            saveData();
+        }
+
+        function loadData() {
+            renderAlbums();
+            renderAnnouncements();
+            renderArticles();
+        }
+
+        function saveData() {
+            localStorage.setItem('albums', JSON.stringify(albums));
+            localStorage.setItem('announcements', JSON.stringify(announcements));
+            localStorage.setItem('articles', JSON.stringify(articles));
+        }
+
+        function setupEventListeners() {
+            // File upload handling
+            document.getElementById('photo-files').addEventListener('change', handlePhotoUpload);
+            
+            // Drag and drop
+            const uploadArea = document.getElementById('photo-upload-area');
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('drag-over');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('drag-over');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('drag-over');
+                const files = e.dataTransfer.files;
+                handlePhotoUpload({ target: { files } });
+            });
+
+            // Form submissions
+            document.getElementById('album-form').addEventListener('submit', handleAlbumSubmit);
+            document.getElementById('announcement-form').addEventListener('submit', handleAnnouncementSubmit);
+            document.getElementById('article-form').addEventListener('submit', handleArticleSubmit);
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 py-2 px-1 font-medium';
+            });
+            
+            // Show active tab
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            
+            // Style active tab button
+            event.target.className = 'tab-btn border-b-2 border-blue-600 text-blue-600 py-2 px-1 font-medium';
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Reset forms
+            if (modalId.includes('modal')) {
+                const form = document.querySelector(`#${modalId} form`);
+                if (form) form.reset();
+                
+                // Clear photo previews
+                if (modalId === 'album-modal') {
+                    document.getElementById('photos-preview').innerHTML = '';
+                }
+            }
+        }
+
+        // Albums functions
+        function renderAlbums() {
+            const grid = document.getElementById('albums-grid');
+            grid.innerHTML = albums.map(album => `
+                <div class="bg-gray-50 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                    <div class="aspect-w-16 aspect-h-9 bg-gray-200">
+                        ${album.photos && album.photos.length > 0 
+                            ? `<img src="${album.photos[0].src}" alt="${album.title}" class="w-full h-48 object-cover">`
+                            : `<div class="w-full h-48 flex items-center justify-center"><i class="fas fa-images text-4xl text-gray-400"></i></div>`
+                        }
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-lg mb-2">${album.title}</h3>
+                        <p class="text-gray-600 text-sm mb-3">${album.description || 'Aucune description'}</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
+                            <span><i class="fas fa-images mr-1"></i>${album.photos ? album.photos.length : 0} photos</span>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">${getCategoryLabel(album.category)}</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="viewAlbum(${album.id})" class="flex-1 bg-blue-600 text-white px-3 py-2 rounded text-sm hover:bg-blue-700">
+                                <i class="fas fa-eye mr-1"></i>Voir
+                            </button>
+                            <button onclick="editAlbum(${album.id})" class="bg-yellow-500 text-white px-3 py-2 rounded text-sm hover:bg-yellow-600">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteItem('album', ${album.id}, '${album.title}')" class="bg-red-500 text-white px-3 py-2 rounded text-sm hover:bg-red-600">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleAlbumSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('album-id').value;
+            const title = document.getElementById('album-title').value;
+            const description = document.getElementById('album-description').value;
+            const category = document.getElementById('album-category').value;
+            
+            const albumData = {
+                title,
+                description,
+                category,
+                photos: currentPhotos || [],
+                updatedAt: new Date().toISOString()
+            };
+
+            if (id) {
+                // Update existing album
+                const index = albums.findIndex(a => a.id == id);
+                albums[index] = { ...albums[index], ...albumData };
+                showNotification('Album modifié avec succès', 'success');
+            } else {
+                // Create new album
+                albumData.id = Date.now();
+                albumData.createdAt = new Date().toISOString();
+                albums.unshift(albumData);
+                showNotification('Album créé avec succès', 'success');
+            }
+
+            saveData();
+            renderAlbums();
+            closeModal('album-modal');
+            currentPhotos = [];
+        }
+
+        function editAlbum(id) {
+            const album = albums.find(a => a.id == id);
+            if (!album) return;
+
+            document.getElementById('album-id').value = album.id;
+            document.getElementById('album-title').value = album.title;
+            document.getElementById('album-description').value = album.description || '';
+            document.getElementById('album-category').value = album.category;
+            document.getElementById('album-modal-title').textContent = 'Modifier l\'album';
+
+            // Display existing photos
+            currentPhotos = album.photos || [];
+            renderPhotoPreview();
+
+            openModal('album-modal');
+        }
+
+        function viewAlbum(id) {
+            const album = albums.find(a => a.id == id);
+            if (!album || !album.photos || album.photos.length === 0) {
+                showNotification('Aucune photo dans cet album', 'warning');
+                return;
+            }
+
+            // Create album viewer
+            const modal = document.createElement('div');
+            modal.className = 'modal fixed inset-0 bg-black bg-opacity-90 items-center justify-center z-50 active';
+            modal.innerHTML = `
+                <div class="max-w-6xl max-h-[90vh] w-full mx-4 relative">
+                    <button onclick="this.closest('.modal').remove(); document.body.style.overflow = 'auto';" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 z-10">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    
+                    <div class="bg-white rounded-lg p-6 max-h-[90vh] overflow-y-auto">
+                        <h2 class="text-2xl font-bold mb-4">${album.title}</h2>
+                        <p class="text-gray-600 mb-6">${album.description || ''}</p>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            ${album.photos.map((photo, index) => `
+                                <div class="photo-item cursor-pointer" onclick="viewPhoto('${photo.src}', '${photo.title}', '${album.title}')">
+                                    <img src="${photo.src}" alt="${photo.title}" class="w-full h-32 object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                                    <p class="text-sm text-center mt-2 text-gray-700">${photo.title}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Photo functions
+        let currentPhotos = [];
+
+        function handlePhotoUpload(e) {
+            const files = Array.from(e.target.files);
+            
+            files.forEach((file, index) => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const photo = {
+                            id: Date.now() + index,
+                            src: e.target.result,
+                            title: file.name.split('.')[0],
+                            file: file
+                        };
+                        currentPhotos.push(photo);
+                        renderPhotoPreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        function renderPhotoPreview() {
+            const preview = document.getElementById('photos-preview');
+            preview.innerHTML = currentPhotos.map((photo, index) => `
+                <div class="relative">
+                    <img src="${photo.src}" alt="${photo.title}" class="w-full h-24 object-cover rounded-lg">
+                    <button onclick="removePhoto(${index})" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <input type="text" value="${photo.title}" onchange="updatePhotoTitle(${index}, this.value)" 
+                           class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-lg">
+                </div>
+            `).join('');
+        }
+
+        function removePhoto(index) {
+            currentPhotos.splice(index, 1);
+            renderPhotoPreview();
+        }
+
+        function updatePhotoTitle(index, title) {
+            currentPhotos[index].title = title;
+        }
+
+        function viewPhoto(src, title, albumTitle) {
+            document.getElementById('photo-viewer-image').src = src;
+            document.getElementById('photo-viewer-title').textContent = title;
+            document.getElementById('photo-viewer-description').textContent = `Album: ${albumTitle}`;
+            openModal('photo-viewer-modal');
+        }
+
+        // Announcements functions
+        function renderAnnouncements() {
+            const list = document.getElementById('announcements-list');
+            list.innerHTML = announcements.map(announcement => `
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <h3 class="font-semibold text-lg mr-3">${announcement.title}</h3>
+                                <span class="px-2 py-1 rounded-full text-xs text-white ${getPriorityColor(announcement.priority)}">
+                                    ${getPriorityLabel(announcement.priority)}
+                                </span>
+                                <span class="ml-2 px-2 py-1 rounded-full text-xs text-white ${getStatusColor(announcement.status)}">
+                                    ${getStatusLabel(announcement.status)}
+                                </span>
+                            </div>
+                            <p class="text-gray-600 mb-2">${announcement.content}</p>
+                            <div class="text-sm text-gray-500">
+                                <span><i class="fas fa-calendar mr-1"></i>Créé le ${formatDate(announcement.createdAt)}</span>
+                                ${announcement.expiry ? `<span class="ml-4"><i class="fas fa-clock mr-1"></i>Expire le ${formatDate(announcement.expiry)}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="flex space-x-2 ml-4">
+                            <button onclick="editAnnouncement(${announcement.id})" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteItem('announcement', ${announcement.id}, '${announcement.title}')" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleAnnouncementSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('announcement-id').value;
+            const title = document.getElementById('announcement-title').value;
+            const content = document.getElementById('announcement-content').value;
+            const priority = document.getElementById('announcement-priority').value;
+            const status = document.getElementById('announcement-status').value;
+            const expiry = document.getElementById('announcement-expiry').value;
+            
+            const announcementData = {
+                title,
+                content,
+                priority,
+                status,
+                expiry: expiry || null,
+                updatedAt: new Date().toISOString()
+            };
+
+            if (id) {
+                // Update existing announcement
+                const index = announcements.findIndex(a => a.id == id);
+                announcements[index] = { ...announcements[index], ...announcementData };
+                showNotification('Annonce modifiée avec succès', 'success');
+            } else {
+                // Create new announcement
+                announcementData.id = Date.now();
+                announcementData.createdAt = new Date().toISOString();
+                announcements.unshift(announcementData);
+                showNotification('Annonce créée avec succès', 'success');
+            }
+
+            saveData();
+            renderAnnouncements();
+            closeModal('announcement-modal');
+        }
+
+        function editAnnouncement(id) {
+            const announcement = announcements.find(a => a.id == id);
+            if (!announcement) return;
+
+            document.getElementById('announcement-id').value = announcement.id;
+            document.getElementById('announcement-title').value = announcement.title;
+            document.getElementById('announcement-content').value = announcement.content;
+            document.getElementById('announcement-priority').value = announcement.priority;
+            document.getElementById('announcement-status').value = announcement.status;
+            document.getElementById('announcement-expiry').value = announcement.expiry || '';
+            document.getElementById('announcement-modal-title').textContent = 'Modifier l\'annonce';
+
+            openModal('announcement-modal');
+        }
+
+        // Articles functions
+        function renderArticles() {
+            const list = document.getElementById('articles-list');
+            list.innerHTML = articles.map(article => `
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-3">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <h3 class="font-semibold text-lg mr-3">${article.title}</h3>
+                                <span class="px-2 py-1 rounded-full text-xs text-white bg-purple-500">
+                                    ${getCategoryLabel(article.category)}
+                                </span>
+                                <span class="ml-2 px-2 py-1 rounded-full text-xs text-white ${getStatusColor(article.status)}">
+                                    ${getStatusLabel(article.status)}
+                                </span>
+                            </div>
+                            ${article.summary ? `<p class="text-gray-600 mb-2 italic">${article.summary}</p>` : ''}
+                            <p class="text-gray-700 mb-3">${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
+                            <div class="text-sm text-gray-500 mb-2">
+                                <span><i class="fas fa-calendar mr-1"></i>Créé le ${formatDate(article.createdAt)}</span>
+                                ${article.tags ? `<span class="ml-4"><i class="fas fa-tags mr-1"></i>${article.tags}</span>` : ''}
+                            </div>
+                        </div>
+                        ${article.image ? `<img src="${article.image}" alt="${article.title}" class="w-20 h-16 object-cover rounded ml-4">` : ''}
+                        <div class="flex space-x-2 ml-4">
+                            <button onclick="editArticle(${article.id})" class="bg-yellow-500 text-white px-3 py-1 rounded text-sm hover:bg-yellow-600">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="deleteItem('article', ${article.id}, '${article.title}')" class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleArticleSubmit(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('article-id').value;
+            const title = document.getElementById('article-title').value;
+            const summary = document.getElementById('article-summary').value;
+            const content = document.getElementById('article-content').value;
+            const category = document.getElementById('article-category').value;
+            const status = document.getElementById('article-status').value;
+            const tags = document.getElementById('article-tags').value;
+            const imageFile = document.getElementById('article-image').files[0];
+            
+            const articleData = {
+                title,
+                summary,
+                content,
+                category,
+                status,
+                tags,
+                updatedAt: new Date().toISOString()
+            };
+
+            // Handle image upload
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    articleData.image = e.target.result;
+                    saveArticle();
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveArticle();
+            }
+
+            function saveArticle() {
+                if (id) {
+                    // Update existing article
+                    const index = articles.findIndex(a => a.id == id);
+                    articles[index] = { ...articles[index], ...articleData };
+                    showNotification('Article modifié avec succès', 'success');
+                } else {
+                    // Create new article
+                    articleData.id = Date.now();
+                    articleData.createdAt = new Date().toISOString();
+                    articles.unshift(articleData);
+                    showNotification('Article créé avec succès', 'success');
+                }
+
+                saveData();
+                renderArticles();
+                closeModal('article-modal');
+            }
+        }
+
+        function editArticle(id) {
+            const article = articles.find(a => a.id == id);
+            if (!article) return;
+
+            document.getElementById('article-id').value = article.id;
+            document.getElementById('article-title').value = article.title;
+            document.getElementById('article-summary').value = article.summary || '';
+            document.getElementById('article-content').value = article.content;
+            document.getElementById('article-category').value = article.category;
+            document.getElementById('article-status').value = article.status;
+            document.getElementById('article-tags').value = article.tags || '';
+            document.getElementById('article-modal-title').textContent = 'Modifier l\'article';
+
+            openModal('article-modal');
+        }
+
+        // Delete functions
+        function deleteItem(type, id, title) {
+            document.getElementById('delete-message').textContent = `Êtes-vous sûr de vouloir supprimer "${title}" ?`;
+            
+            document.getElementById('confirm-delete-btn').onclick = function() {
+                if (type === 'album') {
+                    albums = albums.filter(a => a.id != id);
+                    renderAlbums();
+                } else if (type === 'announcement') {
+                    announcements = announcements.filter(a => a.id != id);
+                    renderAnnouncements();
+                } else if (type === 'article') {
+                    articles = articles.filter(a => a.id != id);
+                    renderArticles();
+                }
+                
+                saveData();
+                showNotification(`${type === 'album' ? 'Album' : type === 'announcement' ? 'Annonce' : 'Article'} supprimé avec succès`, 'success');
+                closeModal('delete-modal');
+            };
+            
+            openModal('delete-modal');
+        }
+
+        // Utility functions
+        function getCategoryLabel(category) {
+            const labels = {
+                'evenements': 'Événements',
+                'ceremonies': 'Cérémonies',
+                'sorties': 'Sorties',
+                'sport': 'Sport',
+                'culture': 'Culture',
+                'actualites': 'Actualités',
+                'pedagogie': 'Pédagogie',
+                'vie-scolaire': 'Vie scolaire',
+                'orientation': 'Orientation',
+                'parents': 'Parents',
+                'autres': 'Autres'
+            };
+            return labels[category] || category;
+        }
+
+        function getPriorityLabel(priority) {
+            const labels = {
+                'normale': 'Normale',
+                'importante': 'Importante',
+                'urgente': 'Urgente'
+            };
+            return labels[priority] || priority;
+        }
+
+        function getPriorityColor(priority) {
+            const colors = {
+                'normale': 'bg-blue-500',
+                'importante': 'bg-orange-500',
+                'urgente': 'bg-red-500'
+            };
+            return colors[priority] || 'bg-gray-500';
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'published': 'Publié',
+                'draft': 'Brouillon',
+                'archived': 'Archivé'
+            };
+            return labels[status] || status;
+        }
+
+        function getStatusColor(status) {
+            const colors = {
+                'published': 'status-published',
+                'draft': 'status-draft',
+                'archived': 'status-archived'
+            };
+            return colors[status] || 'bg-gray-500';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('fr-FR', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${getNotificationClasses(type)}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${getNotificationIcon(type)} mr-2"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-lg">&times;</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function getNotificationClasses(type) {
+            const classes = {
+                'success': 'bg-green-500 text-white',
+                'error': 'bg-red-500 text-white',
+                'warning': 'bg-yellow-500 text-white',
+                'info': 'bg-blue-500 text-white'
+            };
+            return classes[type] || classes.info;
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                'success': 'fa-check-circle',
+                'error': 'fa-exclamation-circle',
+                'warning': 'fa-exclamation-triangle',
+                'info': 'fa-info-circle'
+            };
+            return icons[type] || icons.info;
+        }
+
+        function logout() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Reset modal titles when opening new items
+        document.addEventListener('click', function(e) {
+            if (e.target.textContent === 'Nouveau Album') {
+                document.getElementById('album-modal-title').textContent = 'Nouvel Album';
+                document.getElementById('album-form').reset();
+                currentPhotos = [];
+                document.getElementById('photos-preview').innerHTML = '';
+            } else if (e.target.textContent === 'Nouvelle Annonce') {
+                document.getElementById('announcement-modal-title').textContent = 'Nouvelle Annonce';
+                document.getElementById('announcement-form').reset();
+            } else if (e.target.textContent === 'Nouvel Article') {
+                document.getElementById('article-modal-title').textContent = 'Nouvel Article';
+                document.getElementById('article-form').reset();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Collège le Jour de Divo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .step-content { display: none; }
+        .step-content.active { display: block; }
+        .file-input { 
+            border: 1px solid #d1d5db; 
+            border-radius: 0.5rem; 
+            padding: 0.5rem; 
+            width: 100%; 
+        }
+        .summary-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <img src="assets/images/logo.png" alt="Logo Collège" class="h-10 w-auto">
+                    <h1 class="ml-3 text-xl font-bold text-blue-900">Inscription en ligne</h1>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-blue-600 transition-colors">Accueil</a>
+                    <a href="apropos.html" class="text-gray-700 hover:text-blue-600 transition-colors">À propos</a>
+                    <a href="admissions.html" class="text-gray-700 hover:text-blue-600 transition-colors">Admissions</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+                    <button onclick="handleAuth('login')" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Connexion
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-gradient-to-r from-blue-900 to-blue-700 text-white pt-20 pb-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold mb-4">Inscription en ligne</h1>
+            <p class="text-xl opacity-90">Rejoignez notre communauté éducative d'excellence</p>
+        </div>
+    </section>
+
+    <!-- Progress Steps -->
+    <section class="py-8 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex items-center justify-center">
+                <div class="flex items-center">
+                    <div id="step-circle-1" class="step-circle active flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full font-bold mr-4">1</div>
+                    <span id="step-text-1" class="text-sm font-medium text-blue-600 mr-8">Informations élève</span>
+                    <div class="w-16 h-1 bg-gray-300 mr-8"></div>
+                    <div id="step-circle-2" class="step-circle flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 rounded-full font-bold mr-4">2</div>
+                    <span id="step-text-2" class="text-sm font-medium text-gray-500 mr-8">Parents/Tuteur</span>
+                    <div class="w-16 h-1 bg-gray-300 mr-8"></div>
+                    <div id="step-circle-3" class="step-circle flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 rounded-full font-bold mr-4">3</div>
+                    <span id="step-text-3" class="text-sm font-medium text-gray-500 mr-8">Documents</span>
+                    <div class="w-16 h-1 bg-gray-300 mr-8"></div>
+                    <div id="step-circle-4" class="step-circle flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 rounded-full font-bold mr-4">4</div>
+                    <span id="step-text-4" class="text-sm font-medium text-gray-500">Confirmation</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Form -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                
+                <!-- Step 1: Student Information -->
+                <div id="step-1" class="step-content active">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Informations de l'élève</h2>
+                    
+                    <form id="student-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nom de famille *</label>
+                                <input type="text" name="nom" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Prénoms *</label>
+                                <input type="text" name="prenoms" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Date de naissance *</label>
+                                <input type="date" name="date_naissance" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Sexe *</label>
+                                <select name="sexe" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Sélectionner</option>
+                                    <option value="M">Masculin</option>
+                                    <option value="F">Féminin</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Nationalité *</label>
+                                <select name="nationalite" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Sélectionner</option>
+                                    <option value="CI">Ivoirienne</option>
+                                    <option value="BF">Burkinabè</option>
+                                    <option value="GH">Ghanéenne</option>
+                                    <option value="ML">Malienne</option>
+                                    <option value="SN">Sénégalaise</option>
+                                    <option value="autre">Autre</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Lieu de naissance *</label>
+                                <input type="text" name="lieu_naissance" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Classe demandée *</label>
+                                <select name="classe_demandee" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Sélectionner une classe</option>
+                                    <option value="6eme">6ème</option>
+                                    <option value="5eme">5ème</option>
+                                    <option value="4eme">4ème</option>
+                                    <option value="3eme">3ème</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Établissement précédent</label>
+                                <input type="text" name="etablissement_precedent" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Classe précédente</label>
+                                <input type="text" name="classe_precedente" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Adresse de résidence *</label>
+                            <textarea name="adresse" required rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+
+                        <!-- Health Information -->
+                        <div class="bg-red-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-red-800">Informations médicales</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Groupe sanguin</label>
+                                    <select name="groupe_sanguin" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Non connu</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Allergies connues</label>
+                                    <input type="text" name="allergies" placeholder="Aucune ou préciser" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Problèmes de santé particuliers</label>
+                                <textarea name="problemes_sante" rows="2" placeholder="Aucun ou préciser (asthme, diabète, etc.)" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                Suivant : Informations parents
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 2: Parents Information -->
+                <div id="step-2" class="step-content">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Informations des parents/tuteur</h2>
+                    
+                    <form id="parents-form" class="space-y-6">
+                        <!-- Père -->
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-blue-800">Informations du père</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                                    <input type="text" name="nom_pere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Profession</label>
+                                    <input type="text" name="profession_pere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                                    <input type="tel" name="telephone_pere" placeholder="+225 XX XX XX XX" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" name="email_pere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Adresse professionnelle</label>
+                                <textarea name="adresse_pro_pere" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Mère -->
+                        <div class="bg-pink-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-pink-800">Informations de la mère</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet</label>
+                                    <input type="text" name="nom_mere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Profession</label>
+                                    <input type="text" name="profession_mere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone</label>
+                                    <input type="tel" name="telephone_mere" placeholder="+225 XX XX XX XX" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <input type="email" name="email_mere" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Adresse professionnelle</label>
+                                <textarea name="adresse_pro_mere" rows="2" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Contact principal -->
+                        <div class="bg-green-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-green-800">Contact principal *</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Personne à contacter en priorité *</label>
+                                    <select name="contact_principal" required class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Sélectionner</option>
+                                        <option value="pere">Père</option>
+                                        <option value="mere">Mère</option>
+                                        <option value="tuteur">Tuteur</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone principal *</label>
+                                    <input type="tel" name="telephone_principal" required placeholder="+225 XX XX XX XX" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tuteur (si applicable) -->
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-gray-800">Tuteur légal (si applicable)</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Nom complet du tuteur</label>
+                                    <input type="text" name="nom_tuteur" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Relation avec l'élève</label>
+                                    <input type="text" name="relation_tuteur" placeholder="Oncle, Tante, Grand-parent..." class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Téléphone tuteur</label>
+                                    <input type="tel" name="telephone_tuteur" placeholder="+225 XX XX XX XX" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email tuteur</label>
+                                    <input type="email" name="email_tuteur" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" id="back-to-step1" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i>Retour
+                            </button>
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                Suivant : Documents
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 3: Documents -->
+                <div id="step-3" class="step-content">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Documents requis</h2>
+                    
+                    <form id="documents-form" class="space-y-6">
+                        <div class="bg-yellow-50 p-6 rounded-lg mb-6">
+                            <h3 class="text-lg font-semibold mb-2 text-yellow-800">
+                                <i class="fas fa-info-circle mr-2"></i>Information importante
+                            </h3>
+                            <p class="text-yellow-700 text-sm">
+                                Les documents suivants sont obligatoires pour finaliser votre inscription. 
+                                Vous pouvez les télécharger maintenant ou les apporter lors du rendez-vous de confirmation.
+                            </p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Document 1 -->
+                            <div class="border border-gray-300 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-medium">Extrait d'acte de naissance *</h4>
+                                        <p class="text-sm text-gray-600">Document officiel récent (moins de 3 mois)</p>
+                                    </div>
+                                    <span class="text-red-600 text-sm font-medium">Obligatoire</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="file" name="acte_naissance" accept=".pdf,.jpg,.jpeg,.png" class="file-input">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        PDF, JPG ou PNG - Max 5MB
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document 2 -->
+                            <div class="border border-gray-300 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-medium">Bulletins scolaires des 2 dernières années *</h4>
+                                        <p class="text-sm text-gray-600">Bulletins de 4ème et 5ème pour les 3ème, etc.</p>
+                                    </div>
+                                    <span class="text-red-600 text-sm font-medium">Obligatoire</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="file" name="bulletins" accept=".pdf,.jpg,.jpeg,.png" multiple class="file-input">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Plusieurs fichiers acceptés
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document 3 -->
+                            <div class="border border-gray-300 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-medium">4 photos d'identité récentes *</h4>
+                                        <p class="text-sm text-gray-600">Format 4x4 cm, fond blanc</p>
+                                    </div>
+                                    <span class="text-red-600 text-sm font-medium">Obligatoire</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="file" name="photos" accept=".jpg,.jpeg,.png" multiple class="file-input">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        4 photos ou 1 planche
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document 4 -->
+                            <div class="border border-gray-300 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-medium">Certificat médical *</h4>
+                                        <p class="text-sm text-gray-600">Aptitude à la scolarité (moins de 3 mois)</p>
+                                    </div>
+                                    <span class="text-red-600 text-sm font-medium">Obligatoire</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="file" name="certificat_medical" accept=".pdf,.jpg,.jpeg,.png" class="file-input">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Délivré par un médecin
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document 5 -->
+                            <div class="border border-gray-300 rounded-lg p-4">
+                                <div class="flex items-center justify-between mb-3">
+                                    <div>
+                                        <h4 class="font-medium">Certificat de scolarité</h4>
+                                        <p class="text-sm text-gray-600">De l'établissement précédent (si changement d'école)</p>
+                                    </div>
+                                    <span class="text-orange-600 text-sm font-medium">Recommandé</span>
+                                </div>
+                                <div class="flex items-center space-x-4">
+                                    <input type="file" name="cni_parent" accept=".pdf,.jpg,.jpeg,.png" class="file-input">
+                                    <div class="flex items-center text-sm text-gray-500">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Recto-verso si CNI
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload Progress -->
+                        <div id="upload-progress" class="hidden">
+                            <div class="bg-blue-50 p-4 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <i class="fas fa-cloud-upload-alt text-blue-600 mr-2"></i>
+                                    <span class="font-medium">Téléchargement en cours...</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div id="upload-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                                </div>
+                                <div class="text-sm text-gray-600 mt-1">
+                                    <span id="upload-text">Préparation...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-medium mb-2 text-green-800">
+                                <i class="fas fa-lightbulb mr-2"></i>Conseil pratique
+                            </h4>
+                            <p class="text-green-700 text-sm">
+                                Pour une inscription plus rapide, scannez vos documents en PDF. 
+                                Vous pouvez aussi utiliser une application mobile de scan pour transformer vos photos en PDF.
+                            </p>
+                        </div>
+
+                        <div class="flex justify-between">
+                            <button type="button" id="back-to-step2" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i>Retour
+                            </button>
+                            <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+                                Suivant : Confirmation
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 4: Confirmation -->
+                <div id="step-4" class="step-content">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-6">Confirmation de l'inscription</h2>
+                    
+                    <!-- Summary -->
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-blue-800">Récapitulatif des informations</h3>
+                            
+                            <!-- Student Summary -->
+                            <div class="summary-card">
+                                <h4 class="font-semibold mb-2 text-gray-800">Informations de l'élève</h4>
+                                <div id="student-summary" class="text-sm text-gray-600">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Parents Summary -->
+                            <div class="summary-card">
+                                <h4 class="font-semibold mb-2 text-gray-800">Informations des parents</h4>
+                                <div id="parents-summary" class="text-sm text-gray-600">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Documents Summary -->
+                            <div class="summary-card">
+                                <h4 class="font-semibold mb-2 text-gray-800">Documents téléchargés</h4>
+                                <div id="documents-summary" class="text-sm text-gray-600">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Information -->
+                        <div class="bg-green-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-green-800">
+                                <i class="fas fa-credit-card mr-2"></i>Informations de paiement
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-medium mb-2">Frais d'inscription</h4>
+                                    <div class="text-2xl font-bold text-green-700">50 000 FCFA</div>
+                                    <p class="text-sm text-gray-600">Incluant frais de dossier</p>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium mb-2">Modalités de paiement</h4>
+                                    <ul class="text-sm text-gray-600 space-y-1">
+                                        <li>• Paiement mobile : Orange Money, MTN Money</li>
+                                        <li>• Virement bancaire</li>
+                                        <li>• Paiement en espèces (lors du RDV)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 p-4 bg-white rounded border">
+                                <label class="flex items-center">
+                                    <input type="checkbox" id="payment-method" name="payment_method" class="mr-3" required>
+                                    <span class="text-sm">Je choisis de régler les frais d'inscription lors du rendez-vous de confirmation</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="bg-gray-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-gray-800">
+                                <i class="fas fa-file-contract mr-2"></i>Conditions générales
+                            </h3>
+                            
+                            <div class="space-y-4 text-sm text-gray-700">
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="terms1" class="mr-3 mt-1" required>
+                                    <label for="terms1">
+                                        Je certifie que toutes les informations fournies sont exactes et complètes. 
+                                        Toute fausse déclaration pourra entraîner l'annulation de l'inscription.
+                                    </label>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="terms2" class="mr-3 mt-1" required>
+                                    <label for="terms2">
+                                        J'accepte le règlement intérieur du Collège le Jour de Divo et m'engage à le respecter.
+                                    </label>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="terms3" class="mr-3 mt-1" required>
+                                    <label for="terms3">
+                                        J'autorise l'établissement à utiliser les photos de mon enfant dans le cadre des activités pédagogiques 
+                                        et de communication de l'école (site web, brochures, etc.).
+                                    </label>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <input type="checkbox" id="terms4" class="mr-3 mt-1">
+                                    <label for="terms4">
+                                        J'accepte de recevoir des informations par email et SMS concernant la scolarité de mon enfant.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Next Steps -->
+                        <div class="bg-yellow-50 p-6 rounded-lg">
+                            <h3 class="text-lg font-semibold mb-4 text-yellow-800">
+                                <i class="fas fa-calendar-check mr-2"></i>Prochaines étapes
+                            </h3>
+                            <ol class="text-sm text-yellow-700 space-y-2">
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">1.</span>
+                                    Confirmation de votre inscription par email dans les 24h
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">2.</span>
+                                    Rendez-vous programmé pour finaliser l'inscription (sous 7 jours)
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">3.</span>
+                                    Apport des documents originaux lors du rendez-vous
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">4.</span>
+                                    Paiement des frais d'inscription si non effectué en ligne
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="font-bold mr-2">5.</span>
+                                    Remise de la liste des fournitures scolaires
+                                </li>
+                            </ol>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex justify-between items-center">
+                            <button type="button" id="back-to-step3" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                                <i class="fas fa-arrow-left mr-2"></i>Retour
+                            </button>
+                            
+                            <div class="space-x-4">
+                                <button type="button" id="save-draft" class="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700">
+                                    <i class="fas fa-save mr-2"></i>Sauvegarder le brouillon
+                                </button>
+                                <button type="button" id="submit-inscription" class="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                                    <i class="fas fa-check-circle mr-2"></i>Finaliser l'inscription
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Message (Hidden by default) -->
+                <div id="success-message" class="step-content">
+                    <div class="text-center py-12">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-check-circle text-3xl text-green-600"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Inscription soumise avec succès !</h2>
+                        <p class="text-lg text-gray-600 mb-8">
+                            Votre demande d'inscription a été enregistrée. Vous recevrez un email de confirmation dans les prochaines minutes.
+                        </p>
+                        
+                        <div class="bg-blue-50 p-6 rounded-lg mb-8 text-left">
+                            <h3 class="font-semibold mb-3">Numéro de dossier : <span id="dossier-number" class="text-blue-600">INS-2025-0001</span></h3>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Conservez précieusement ce numéro pour le suivi de votre dossier.
+                            </p>
+                            
+                            <h4 class="font-medium mb-2">Contacts utiles :</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>📞 Secrétariat : +225 XX XX XX XX</li>
+                                <li>📧 Email : admissions@collegelejourdivo.ci</li>
+                                <li>🕒 Horaires : Lundi au Vendredi, 7h30 - 17h00</li>
+                            </ul>
+                        </div>
+
+                        <div class="space-x-4">
+                            <button onclick="window.print()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-print mr-2"></i>Imprimer le récépissé
+                            </button>
+                            <a href="index.html" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 inline-block">
+                                <i class="fas fa-home mr-2"></i>Retour à l'accueil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src="assets/images/logo.png" alt="Logo" class="h-12 w-auto mb-4">
+                    <h3 class="text-xl font-bold mb-4">Collège le Jour de Divo</h3>
+                    <p class="text-gray-400">Excellence académique et épanouissement personnel pour tous nos élèves.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#accueil" class="text-gray-400 hover:text-white">Accueil</a></li>
+                        <li><a href="apropos.html" class="text-gray-400 hover:text-white">À propos</a></li>
+                        <li><a href="admissions.html" class="text-gray-400 hover:text-white">Admissions</a></li>
+                        <li><a href="vie-scolaire.html" class="text-gray-400 hover:text-white">Vie scolaire</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Services</h4>
+                    <ul class="space-y-2">
+                        <li><a href="espace-eleves.html" class="text-gray-400 hover:text-white">Espace élèves</a></li>
+                        <li><a href="espace-parents.html" class="text-gray-400 hover:text-white">Espace parents</a></li>
+                        <li><a href="espace-enseignants.html" class="text-gray-400 hover:text-white">Espace enseignants</a></li>
+                        <li><a href="paiements-en-ligne.html" class="text-gray-400 hover:text-white">Paiements en ligne</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-map-marker-alt mr-2"></i>Divo, Côte d'Ivoire</p>
+                        <p><i class="fas fa-phone mr-2"></i>+225 05 55 35 28 67</p>
+                        <p><i class="fas fa-envelope mr-2"></i>contact@collegejourddivo.ci</p>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://www.facebook.com" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="https://www.twitter.com" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="https://www.instagram.com" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Collège le Jour de Divo. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Form data storage
+        let formData = {
+            student: {},
+            parents: {},
+            documents: {}
+        };
+
+        // Current step tracking
+        let currentStep = 1;
+
+        // Initialize form
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeForm();
+            loadSavedData();
+        });
+
+        function initializeForm() {
+            // Student form submission
+            document.getElementById('student-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateStudentForm()) {
+                    saveStudentData();
+                    goToStep(2);
+                }
+            });
+
+            // Parents form submission
+            document.getElementById('parents-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (validateParentsForm()) {
+                    saveParentsData();
+                    goToStep(3);
+                }
+            });
+
+            // Documents form submission
+            document.getElementById('documents-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveDocumentsData();
+                generateSummary();
+                goToStep(4);
+            });
+
+            // Navigation buttons
+            document.getElementById('back-to-step1').addEventListener('click', () => goToStep(1));
+            document.getElementById('back-to-step2').addEventListener('click', () => goToStep(2));
+            document.getElementById('back-to-step3').addEventListener('click', () => goToStep(3));
+
+            // Final submission
+            document.getElementById('submit-inscription').addEventListener('click', submitInscription);
+            document.getElementById('save-draft').addEventListener('click', saveDraft);
+        }
+
+        function validateStudentForm() {
+            const form = document.getElementById('student-form');
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#ef4444';
+                    field.focus();
+                } else {
+                    field.style.borderColor = '#d1d5db';
+                }
+            });
+
+            if (!isValid) {
+                showNotification('Veuillez remplir tous les champs obligatoires', 'error');
+            }
+
+            return isValid;
+        }
+
+        function validateParentsForm() {
+            const contactPrincipal = document.querySelector('[name="contact_principal"]').value;
+            const telephonePrincipal = document.querySelector('[name="telephone_principal"]').value;
+
+            if (!contactPrincipal || !telephonePrincipal) {
+                showNotification('Veuillez renseigner le contact principal', 'error');
+                return false;
+            }
+
+            return true;
+        }
+
+        function saveStudentData() {
+            const form = document.getElementById('student-form');
+            const formData = new FormData(form);
+            
+            for (let [key, value] of formData.entries()) {
+                window.formData.student[key] = value;
+            }
+            
+            localStorage.setItem('inscriptionData', JSON.stringify(window.formData));
+        }
+
+        function saveParentsData() {
+            const form = document.getElementById('parents-form');
+            const formData = new FormData(form);
+            
+            for (let [key, value] of formData.entries()) {
+                window.formData.parents[key] = value;
+            }
+            
+            localStorage.setItem('inscriptionData', JSON.stringify(window.formData));
+        }
+
+        function saveDocumentsData() {
+            const form = document.getElementById('documents-form');
+            const fileInputs = form.querySelectorAll('input[type="file"]');
+            
+            fileInputs.forEach(input => {
+                if (input.files.length > 0) {
+                    window.formData.documents[input.name] = Array.from(input.files).map(file => file.name);
+                }
+            });
+            
+            localStorage.setItem('inscriptionData', JSON.stringify(window.formData));
+        }
+
+        function generateSummary() {
+            // Student summary
+            const studentSummary = document.getElementById('student-summary');
+            const student = window.formData.student;
+            
+            studentSummary.innerHTML = `
+                <p><strong>Nom :</strong> ${student.nom || ''} ${student.prenoms || ''}</p>
+                <p><strong>Date de naissance :</strong> ${student.date_naissance || ''}</p>
+                <p><strong>Classe demandée :</strong> ${student.classe_demandee || ''}</p>
+                <p><strong>Nationalité :</strong> ${student.nationalite || ''}</p>
+                <p><strong>Adresse :</strong> ${student.adresse || ''}</p>
+            `;
+
+            // Parents summary
+            const parentsSummary = document.getElementById('parents-summary');
+            const parents = window.formData.parents;
+            
+            parentsSummary.innerHTML = `
+                <p><strong>Contact principal :</strong> ${parents.contact_principal || ''}</p>
+                <p><strong>Téléphone principal :</strong> ${parents.telephone_principal || ''}</p>
+                <p><strong>Père :</strong> ${parents.nom_pere || 'Non renseigné'}</p>
+                <p><strong>Mère :</strong> ${parents.nom_mere || 'Non renseigné'}</p>
+            `;
+
+            // Documents summary
+            const documentsSummary = document.getElementById('documents-summary');
+            const documents = window.formData.documents;
+            let docsHtml = '';
+            
+            for (let [key, files] of Object.entries(documents)) {
+                if (files && files.length > 0) {
+                    docsHtml += `<p><strong>${getDocumentLabel(key)} :</strong> ${files.join(', ')}</p>`;
+                }
+            }
+            
+            documentsSummary.innerHTML = docsHtml || '<p class="text-gray-500">Aucun document téléchargé</p>';
+        }
+
+        function getDocumentLabel(key) {
+            const labels = {
+                'acte_naissance': 'Acte de naissance',
+                'bulletins': 'Bulletins scolaires',
+                'photos': 'Photos d\'identité',
+                'certificat_medical': 'Certificat médical',
+                'certificat_scolarite': 'Certificat de scolarité',
+                'cni_parent': 'CNI/Passeport parent'
+            };
+            return labels[key] || key;
+        }
+
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Show target step
+            document.getElementById(`step-${step}`).classList.add('active');
+
+            // Update progress indicators
+            updateProgressIndicators(step);
+            
+            currentStep = step;
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function updateProgressIndicators(activeStep) {
+            for (let i = 1; i <= 4; i++) {
+                const circle = document.getElementById(`step-circle-${i}`);
+                const text = document.getElementById(`step-text-${i}`);
+                
+                if (i <= activeStep) {
+                    circle.className = 'step-circle flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full font-bold mr-4';
+                    text.className = 'text-sm font-medium text-blue-600 mr-8';
+                } else {
+                    circle.className = 'step-circle flex items-center justify-center w-10 h-10 bg-gray-300 text-gray-600 rounded-full font-bold mr-4';
+                    text.className = 'text-sm font-medium text-gray-500 mr-8';
+                }
+            }
+        }
+
+        function submitInscription() {
+            // Validate required checkboxes
+            const requiredCheckboxes = ['terms1', 'terms2', 'terms3', 'payment-method'];
+            let allChecked = true;
+
+            requiredCheckboxes.forEach(id => {
+                const checkbox = document.getElementById(id);
+                if (!checkbox.checked) {
+                    allChecked = false;
+                    checkbox.focus();
+                }
+            });
+
+            if (!allChecked) {
+                showNotification('Veuillez accepter les conditions générales', 'error');
+                return;
+            }
+
+            // Show loading
+            showLoading();
+
+            // Simulate submission (replace with actual API call)
+            setTimeout(() => {
+                hideLoading();
+                
+                // Generate dossier number
+                const dossierNumber = 'INS-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 9999) + 1).padStart(4, '0');
+                document.getElementById('dossier-number').textContent = dossierNumber;
+                
+                // Clear saved data
+                localStorage.removeItem('inscriptionData');
+                
+                // Show success
+                goToSuccessPage();
+                
+                showNotification('Inscription soumise avec succès !', 'success');
+            }, 2000);
+        }
+
+        function goToSuccessPage() {
+            document.querySelectorAll('.step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('success-message').classList.add('active');
+        }
+
+        function saveDraft() {
+            localStorage.setItem('inscriptionData', JSON.stringify(window.formData));
+            showNotification('Brouillon sauvegardé avec succès', 'success');
+        }
+
+        function loadSavedData() {
+            const saved = localStorage.getItem('inscriptionData');
+            if (saved) {
+                window.formData = JSON.parse(saved);
+                
+                // Populate forms with saved data
+                populateForm('student-form', window.formData.student);
+                populateForm('parents-form', window.formData.parents);
+                
+                showNotification('Données sauvegardées restaurées', 'info');
+            }
+        }
+
+        function populateForm(formId, data) {
+            const form = document.getElementById(formId);
+            if (!form || !data) return;
+
+            Object.entries(data).forEach(([key, value]) => {
+                const field = form.querySelector(`[name="${key}"]`);
+                if (field) {
+                    field.value = value;
+                }
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg shadow-lg transition-all duration-300 ${getNotificationClasses(type)}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${getNotificationIcon(type)} mr-2"></i>
+                    <span>${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="ml-4 text-lg">&times;</button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        function getNotificationClasses(type) {
+            const classes = {
+                'success': 'bg-green-500 text-white',
+                'error': 'bg-red-500 text-white',
+                'warning': 'bg-yellow-500 text-white',
+                'info': 'bg-blue-500 text-white'
+            };
+            return classes[type] || classes.info;
+        }
+
+        function getNotificationIcon(type) {
+            const icons = {
+                'success': 'fa-check-circle',
+                'error': 'fa-exclamation-circle',
+                'warning': 'fa-exclamation-triangle',
+                'info': 'fa-info-circle'
+            };
+            return icons[type] || icons.info;
+        }
+
+        function showLoading() {
+            const loader = document.createElement('div');
+            loader.id = 'loading-overlay';
+            loader.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            loader.innerHTML = `
+                <div class="bg-white p-8 rounded-lg text-center">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                    <p class="text-gray-700">Envoi de votre inscription...</p>
+                </div>
+            `;
+            document.body.appendChild(loader);
+        }
+
+        function hideLoading() {
+            const loader = document.getElementById('loading-overlay');
+            if (loader) {
+                loader.remove();
+            }
+        }
+
+        function handleAuth(action) {
+            // Placeholder for authentication
+            console.log('Auth action:', action);
+        }
+
+        // Initialize global formData
+        window.formData = formData;
+    </script>
+</body>
+</html>
